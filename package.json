@@ -1,0 +1,47 @@
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@react-email/components": "0.0.19",
+    "@react-email/html": "0.0.8",
+    "axios": "^1.7.2",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.5.0",
+    "date-fns": "^4.1.0",
+    "dotenv": "^16.4.5",
+    "draft-js": "^0.11.7",
+    "fast-xml-parser": "^4.5.0",
+    "formidable": "^3.5.1",
+    "jsonwebtoken": "^9.0.2",
+    "lodash.debounce": "^4.0.8",
+    "mongodb": "^6.7.0",
+    "mongoose": "^8.6.3",
+    "next": "14.2.3",
+    "next-auth": "^4.24.7",
+    "next-cloudinary": "^6.6.2",
+    "node-cron": "^3.0.3",
+    "nodemailer": "^6.9.13",
+    "react": "^18",
+    "react-date-range": "^2.0.1",
+    "react-dom": "^18",
+    "react-draft-wysiwyg": "^1.15.0",
+    "react-google-forms-hooks": "^1.2.4",
+    "react-hook-form": "^7.51.5",
+    "react-icons": "^5.2.1",
+    "react-select": "^5.8.3",
+    "react-toastify": "^10.0.6"
+  },
+  "devDependencies": {
+    "eslint": "^8",
+    "eslint-config-next": "14.2.3",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1"
+  }
+}

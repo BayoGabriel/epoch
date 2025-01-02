@@ -1,0 +1,314 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+.custom-scrollbar {
+    overflow: auto; /* Ensure overflow is enabled */
+  }
+  
+  /* WebKit styles */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 0px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 0px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  
+  /* Firefox styles */
+  .custom-scrollbar {
+    scrollbar-width: none;
+    scrollbar-color: #888 #f1f1f1;
+  }
+* {
+    overflow: auto; /* Ensure overflow is enabled */
+  }
+  
+  /* WebKit styles */
+  *::-webkit-scrollbar {
+    width: 0px;
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 0px;
+  }
+  
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+  
+  *::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  
+  /* Firefox styles */
+  * {
+    scrollbar-width: none;
+    scrollbar-color: #888 #f1f1f1;
+  }
+
+@font-face {
+  font-family: 'Gilroy-Bold ☞';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Gilroy-Bold ☞'), url('../public/fonts/Gilroy-Bold.woff') format('woff');
+  }
+  
+
+  @font-face {
+  font-family: 'Gilroy-Heavy ☞';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Gilroy-Heavy ☞'), url('../public/fonts/Gilroy-Heavy.woff') format('woff');
+  }
+  
+
+  @font-face {
+  font-family: 'Gilroy-Light ☞';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Gilroy-Light ☞'), url('../public/fonts/Gilroy-Light.woff') format('woff');
+  }
+  
+
+  @font-face {
+  font-family: 'Gilroy-Medium ☞';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Gilroy-Medium ☞'), url('../public/fonts/Gilroy-Medium.woff') format('woff');
+  }
+  
+
+  @font-face {
+  font-family: 'Gilroy-Regular ☞';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Gilroy-Regular ☞'), url('../public/fonts/Gilroy-Regular.woff') format('woff');
+  }
+  @font-face {
+  font-family: 'DM Sans Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: local('DM Sans Regular'), url('../public/fonts/DMSans-Regular.woff') format('woff');
+  }
+
+  .h1 {
+    font-family:'Gilroy-Bold ☞', monospace, Arial, Helvetica, sans-serif;
+    font-size: 64px;
+    line-height:72px;
+    font-weight:700;
+  }
+  .h2 {
+    font-family:'Gilroy-Bold ☞', monospace, Arial, Helvetica, sans-serif;
+    font-size: 48px;
+    line-height:56px;
+    font-weight:700;
+  }
+  .h3 {
+    font-family:'Gilroy-Bold ☞', monospace, Arial, Helvetica, sans-serif;
+    font-size: 32px;
+    line-height:40px;
+    font-weight:700;
+  }
+  .h4 {
+    font-family:'Gilroy-Bold ☞', monospace, Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    line-height:28px;
+    font-weight:700;
+  }
+  .bt1 {
+   font-family:'DM Sans Regular', monospace, Arial, Helvetica, sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-size: 18px;
+    line-height: 28px;
+    font-weight: 400;
+  }
+  .bt2 {
+   font-family:'DM Sans Regular', monospace, Arial, Helvetica, sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+  }
+  @media (max-width: 768px) {
+    .h1 {
+      font-size: 24px;
+      line-height:32px;
+      font-weight:700;
+    }
+    .h2 {
+      font-size: 20px;
+      line-height:28px;
+      font-weight:700;
+    }
+    .h3 {
+      font-size: 18px;
+      line-height:24px;
+      font-weight:700;
+    }
+    .h4 {
+      font-size: 16px;
+      line-height:24px;
+      font-weight:700;
+    }
+    .bt1 {
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 400;
+    }
+    .bt2 {
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 400;
+    }
+    .primarybtn{
+      padding: 6px 15px;
+      gap: 6px;
+      font-size: 10px;
+    } 
+  }
+  .shaw {
+    box-shadow: 8px 8px 16px 0px rgba(0, 0, 0, 0.08);
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.04);
+  }
+  .primarybtn {
+    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.1);
+    background-color: #E9672B;
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+    font-family:'Gilroy-Bold ☞', monospace, Arial, Helvetica, sans-serif ;
+  }
+  .primarybtn:hover {
+    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.1);
+    background: rgba(233, 103, 43, 0.8);
+  }
+  .secondarybtn {
+    padding: 10px 16px;
+    gap: 10px;
+    border-radius: 8px 0px 0px 0px;
+    border: 1px 0px 0px 0px;
+    opacity: 0px;
+    border: 1px solid rgba(64, 61, 57, 0.8);
+    color: rgba(0, 0, 0, 1);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+  .secondarybtn:hover {
+    border: 1px solid rgba(64, 61, 57, 0.8);
+    background-color: transparent;
+  }
+.tbtn {
+  color: rgba(0, 0, 0, 1);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-decoration: underline;
+}
+.tbtn:hover {
+  color: rgba(0, 0, 0, 0.7);
+}
+.abouthero {
+  font-family:'Gilroy-Bold ☞', monospace, Arial, Helvetica, sans-serif;
+}
+.bodyfont {
+  font-family:'DM Sans Regular', monospace, Arial, Helvetica, sans-serif;
+}
+.mission {
+  background: linear-gradient(90.69deg, #232323 25.57%, rgba(67, 67, 67, 0.83) 58.92%, rgba(255, 255, 255, 0) 99.41%);
+}
+.mvp {
+  background: linear-gradient(302.53deg, rgba(0, 0, 0, 0) 30.04%, #000000 90.73%);
+}
+.skillcard {
+  background: rgba(211, 211, 211, 0.4);
+  box-shadow: 1px 8px 17px 0px rgba(0, 0, 0, 0.15);
+}
+.prbtn {
+  border-color:rgba(220, 222, 225, 1);
+}
+.card2 {
+  box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.1);
+}
+.absh {
+  background: linear-gradient(302.53deg, rgba(0, 0, 0, 0) 30.04%, #000000 90.73%);
+  width: 100%;
+}
+.amba {
+  background: radial-gradient(50.21% 52.72% at 50.05% 47.25%, #000000 0%, rgba(0, 0, 0, 0.03) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+}
+.amcard {
+  box-shadow: 1px 4px 17px 0px rgba(0, 0, 0, 0.15);
+  background-color: #ffffff;
+}
+.oppcard {
+  border-bottom: 1px solid var(--Secondary---Grey, rgba(220, 222, 225, 1));
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.04);
+}
+.oppbtn {
+  font-family: 'Gilroy-Regular ☞';
+}
+.gilroy {
+  font-family: 'Gilroy-Regular ☞';
+}
+.darkest {
+  color: rgba(64, 61, 57, 0.8);
+}
+.munset {
+  padding: unset;
+  margin: unset;
+}
+.subcard {
+  box-shadow: 3px 3px 8px 0px rgba(0, 0, 0, 0.2);
+}
+.rn {
+  box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.1);
+}
+.rncard {
+  box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.1);
+}
+.pscard {
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.08);
+
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.04);
+  
+}
+.psbtn {
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: left;
+  font-family:'Gilroy-Bold ☞', monospace, Arial, Helvetica ;
+}
+.accordion-item {
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.04);
+}
+.noselect {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
