@@ -106,6 +106,9 @@ const Fellowship = () => {
       const data = await response.json();
   
       if (response.ok) {
+        setTimeout(() => {
+          setModal(false);
+        }, 3000);
         toast.success('You have been added to the waitlist!', {
                 position: "top-center",
                 autoClose: 3000,
@@ -177,97 +180,95 @@ const Fellowship = () => {
                 </div>
                 <div className="relative flex-grow flex flex-col items-center justify-center gap-4 max-lg:gap-2">
                 <form onSubmit={handleSubmit} className="w-full flex flex-col items-center gap-[34px] justify-center lg:px-[10px]">
-      <div className="w-full flex flex-col items-center justify-center gap-2">
-        <h3 className="h3">Join Epoch Fellowship Waitlist</h3>
-        <p className="bt1">Be the first to know when the next cohort opens up</p>
-      </div>
+                  <div className="w-full flex flex-col items-center justify-center gap-2">
+                    <h3 className="h3">Join Epoch Fellowship Waitlist</h3>
+                    <p className="bt1">Be the first to know when the next cohort opens up</p>
+                  </div>
+                  <div className="w-full flex items-center gap-[24px] justify-center flex-col">
+                    <div className="flex flex-col gap-3 w-full">
+                      <div className="w-full grid grid-cols-2 gap-4">
+                        <div className="flex flex-col gap-1">
+                          <label htmlFor="firstName" className="h4 text-black">First Name</label>
+                          <input
+                            type="text"
+                            id="firstName"
+                            name="firstName"
+                            placeholder="Enter your first name"
+                            className="w-full p-[10px] border border-[#403D39CC] placeholder:text-[12px] rounded-[10px]"
+                            value={formData.firstName}
+                            onChange={handleChange}
+                            required
+                          />
+                        </div>
+                        <div className="w-full flex flex-col gap-1">
+                          <label htmlFor="lastName" className="h4 text-black">Last Name</label>
+                          <input
+                            type="text"
+                            id="lastName"
+                            name="lastName"
+                            placeholder="Enter your last name"
+                            className="w-full p-[10px] border border-[#403D39CC] placeholder:text-[12px] rounded-[10px]"
+                            value={formData.lastName}
+                            onChange={handleChange}
+                            required
+                          />
+                        </div>
+                      </div>
 
-      <div className="w-full flex items-center gap-[24px] justify-center flex-col">
-        <div className="flex flex-col gap-3 w-full">
-          <div className="w-full grid grid-cols-2 gap-4">
-            <div className="flex flex-col gap-1">
-              <label htmlFor="firstName" className="h4 text-black">First Name</label>
-              <input
-                type="text"
-                id="firstName"
-                name="firstName"
-                placeholder="Enter your first name"
-                className="w-full p-[10px] border border-[#403D39CC] placeholder:text-[12px] rounded-[10px]"
-                value={formData.firstName}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="w-full flex flex-col gap-1">
-              <label htmlFor="lastName" className="h4 text-black">Last Name</label>
-              <input
-                type="text"
-                id="lastName"
-                name="lastName"
-                placeholder="Enter your last name"
-                className="w-full p-[10px] border border-[#403D39CC] placeholder:text-[12px] rounded-[10px]"
-                value={formData.lastName}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
+                      <div className="w-full flex flex-col gap-1">
+                        <label htmlFor="email" className="h4 text-black">Email Address</label>
+                        <input
+                          type="email"
+                          id="email"
+                          name="email"
+                          placeholder="Enter your email address"
+                          className="w-full p-[10px] border border-[#403D39CC] placeholder:text-[12px] rounded-[10px]"
+                          value={formData.email}
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
 
-          <div className="w-full flex flex-col gap-1">
-            <label htmlFor="email" className="h4 text-black">Email Address</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Enter your email address"
-              className="w-full p-[10px] border border-[#403D39CC] placeholder:text-[12px] rounded-[10px]"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
+                      <div className="w-full flex flex-col gap-1">
+                        <label htmlFor="school" className="h4 text-black">School Name</label>
+                        <input
+                          type="text"
+                          id="school"
+                          name="school"
+                          placeholder="Enter the name of your school"
+                          className="w-full p-[10px] border border-[#403D39CC] placeholder:text-[12px] rounded-[10px]"
+                          value={formData.school}
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
 
-          <div className="w-full flex flex-col gap-1">
-            <label htmlFor="school" className="h4 text-black">School Name</label>
-            <input
-              type="text"
-              id="school"
-              name="school"
-              placeholder="Enter the name of your school"
-              className="w-full p-[10px] border border-[#403D39CC] placeholder:text-[12px] rounded-[10px]"
-              value={formData.school}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="w-full flex flex-col gap-1">
-            <label htmlFor="expectation" className="h4 text-black">Expectation of the Program</label>
-            <textarea
-              id="expectation"
-              name="expectation"
-              placeholder="Let us know here"
-              className="w-full h-[80px] p-[10px] border border-[#403D39CC] placeholder:text-[12px] rounded-[10px]"
-              value={formData.expectation}
-              onChange={handleChange}
-              required
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="w-full flex flex-col gap-4 items-center justify-center">
-        <button type="submit" className="primarybtn" disabled={isSubmitting}>
-          {isSubmitting ? 'Submitting...' : 'Join Waitlist'}
-        </button>
-      </div>
-      <ToastContainer />
-    </form>
+                      <div className="w-full flex flex-col gap-1">
+                        <label htmlFor="expectation" className="h4 text-black">Expectation of the Program</label>
+                        <textarea
+                          id="expectation"
+                          name="expectation"
+                          placeholder="Let us know here"
+                          className="w-full h-[80px] p-[10px] border border-[#403D39CC] placeholder:text-[12px] rounded-[10px]"
+                          value={formData.expectation}
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="w-full flex flex-col gap-4 items-center justify-center">
+                    <button type="submit" className="primarybtn" disabled={isSubmitting}>
+                      {isSubmitting ? 'Submitting...' : 'Join Waitlist'}
+                    </button>
+                  </div>
+                </form>
                 </div>
               </div>
             </div>
           </div>
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+          <ToastContainer />
         </>
       )}
     </>

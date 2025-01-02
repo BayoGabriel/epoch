@@ -146,7 +146,7 @@ const Ambassador = () => {
             <Image src={reach2m} alt="reach" className="w-full lg:hidden"/>
             <div className="flex-grow w-full bg-[#33312E] flex flex-col gap-8 max-lg:gap-4 py-20 max-lg:py-10 max-lg:px-2 px-10">
               <h4 className="bodyfont text-white font-[700] text-[36px] max-lg:text-[20px] text-center">Undergraduate Career Club </h4>
-              <p className="bodyfont text-white font-[400] text-[18px] leading-7 lg:w-[544px] max-lg:text-[14px] text-center">Establish the <Link href='' className="underline text-[#0078D4]">Undergraduate Career Club (UCC)</Link>. Create and lead a dynamic community in your school where students can connect, share resources, and receive tailored support for their career paths.
+              <p className="bodyfont text-white font-[400] text-[18px] leading-7 lg:w-[544px] max-lg:text-[14px] text-center">Establish the <span className="underline text-[#0078D4]">Undergraduate Career Club (UCC)</span>. Create and lead a dynamic community in your school where students can connect, share resources, and receive tailored support for their career paths.
               </p>
             </div>
           </div>
