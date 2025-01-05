@@ -139,7 +139,7 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className="w-full flex items-center justify-between py-[48px]">
-                    <span className='text-[16px] font-[400] text-[#0F172A]'>@ 2024 admin@epochafrica.com</span>
+                    <span className='text-[16px] font-[400] text-[#0F172A]'>@ 2025 admin@epochafrica.com</span>
                     <div className="flex items-center justify-center gap-8">
                         <div className="flex gap-2 p-0">
                             <Link href='' className='text-[#475569] text-[16px] font-[400]'>Terms</Link>
@@ -210,7 +210,7 @@ const Footer = () => {
                         <Link href='https://ng.linkedin.com/company/epochafrica' className='text-[#0F172A] mt-1'><FaLinkedinIn/></Link>
                         <Link href='https://open.spotify.com/show/26oCnoZaWz98tIE6u7WwiI?si=Jpk97VF4RdmWR-kPkVh8Ng' className='text-[#0F172A] mt-1'><FaSpotify /></Link>
                     </div>
-                    <span className='text-[16px] text-center text-nowrap font-[400] text-[#0F172A]'>@ 2024 admin@epochafrica.com</span>
+                    <span className='text-[16px] text-center text-nowrap font-[400] text-[#0F172A]'>@ 2025 admin@epochafrica.com</span>
                 </div>
             </div>
             <ToastContainer />
