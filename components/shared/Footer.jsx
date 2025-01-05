@@ -150,9 +150,9 @@ const Footer = () => {
                             <Link href='' className='text-[#0F172A] mt-1'><FaYoutube/></Link>
                             <Link href='' className='text-[#0F172A] mt-1'><TfiFacebook/></Link>
                             <Link href='' className='text-[#0F172A] mt-1'><FaTwitter/></Link>
-                            <Link href='' className='text-[#0F172A] mt-1'><FaInstagram/></Link>
-                            <Link href='' className='text-[#0F172A] mt-1'><FaLinkedinIn/></Link>
-                            <Link href='' className='text-[#0F172A] mt-1'><FaSpotify /></Link>
+                            <Link href='https://www.instagram.com/epoch_africa/' className='text-[#0F172A] mt-1'><FaInstagram/></Link>
+                            <Link href='https://ng.linkedin.com/company/epochafrica' className='text-[#0F172A] mt-1'><FaLinkedinIn/></Link>
+                            <Link href='https://open.spotify.com/show/26oCnoZaWz98tIE6u7WwiI?si=Jpk97VF4RdmWR-kPkVh8Ng' className='text-[#0F172A] mt-1'><FaSpotify /></Link>
                         </div>
                     </div>
                 </div>
@@ -206,9 +206,9 @@ const Footer = () => {
                         <Link href='' className='text-[#0F172A] mt-1'><FaYoutube/></Link>
                         <Link href='' className='text-[#0F172A] mt-1'><TfiFacebook/></Link>
                         <Link href='' className='text-[#0F172A] mt-1'><FaTwitter/></Link>
-                        <Link href='' className='text-[#0F172A] mt-1'><FaInstagram/></Link>
-                        <Link href='' className='text-[#0F172A] mt-1'><FaLinkedinIn/></Link>
-                        <Link href='' className='text-[#0F172A] mt-1'><FaSpotify /></Link>
+                        <Link href='https://www.instagram.com/epoch_africa/' className='text-[#0F172A] mt-1'><FaInstagram/></Link>
+                        <Link href='https://ng.linkedin.com/company/epochafrica' className='text-[#0F172A] mt-1'><FaLinkedinIn/></Link>
+                        <Link href='https://open.spotify.com/show/26oCnoZaWz98tIE6u7WwiI?si=Jpk97VF4RdmWR-kPkVh8Ng' className='text-[#0F172A] mt-1'><FaSpotify /></Link>
                     </div>
                     <span className='text-[16px] text-center text-nowrap font-[400] text-[#0F172A]'>@ 2024 admin@epochafrica.com</span>
                 </div>
