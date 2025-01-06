@@ -100,9 +100,9 @@ const Program = () => {
         <div id='program-structure' className='w-full flex-col flex items-center lg:gap-[48px] gap-[24px] justify-center max-lg:py-[40px] max-lg:px-4 px-[80px] py-[140px]'>
             <h2 className="h2">Program Structure</h2>
             <div className="w-full gap-[24px] max-lg:gap-[12px] flex flex-col">
-                <div className="w-full flex pscard lg:gap-[65px] gap-[32px] items-start p-5">
-                    <Image src={ps} alt='svg'/>
-                    <div className="px-5 w-full">
+                <div className="w-full flex pscard lg:gap-[65px] gap-[32px] items-start p-5 max-lg:p-2">
+                    <Image className='max-lg:hidden' src={ps} alt='svg'/>
+                    <div className="px-5 w-full max-lg:px-2">
                         <div className="flex items-center w-full justify-between">
                             <div className="flex flex-col gap-[10px]">
                                 <h4 className="h4">Discovery Phase</h4>
@@ -116,9 +116,9 @@ const Program = () => {
                         <p className="bt1 text-[#2E2E2E] mt-[25px]">Start by identifying your strengths, exploring career options, and selecting the right path for you. With guided self-assessments, career research, and expert consultations, you'll gain clarity on your professional journey.</p>
                     </div>
                 </div>
-                <div className="w-full flex pscard lg:gap-[65px] gap-[32px] items-start p-5">
-                    <Image src={ps1} alt='svg'/>
-                    <div className="px-5 w-full">
+                <div className="w-full flex pscard lg:gap-[65px] gap-[32px] items-start p-5 max-lg:p-2">
+                    <Image className='max-lg:hidden' src={ps1} alt='svg'/>
+                    <div className="px-5 w-full max-lg:px-2">
                         <div className="flex items-center w-full justify-between">
                             <div className="flex flex-col gap-[10px]">
                                 <h4 className="h4">Planning Phase</h4>
@@ -132,9 +132,9 @@ const Program = () => {
                         <p className="bt1 text-[#2E2E2E] mt-[25px]">Develop a personalized career plan, including short-term, mid-term, and long-term goals. Learn how to optimize your LinkedIn profile, build a professional network, and create an actionable roadmap to achieve your ambitions.</p>
                     </div>
                 </div>
-                <div className="w-full flex pscard lg:gap-[65px] gap-[32px] items-start p-5">
-                    <Image src={ps2} alt='svg'/>
-                    <div className="px-5 w-full">
+                <div className="w-full flex pscard lg:gap-[65px] gap-[32px] items-start p-5 max-lg:p-2">
+                    <Image className='max-lg:hidden' src={ps2} alt='svg'/>
+                    <div className="px-5 w-full max-lg:px-2">
                         <div className="flex items-center w-full justify-between">
                             <div className="flex flex-col gap-[10px]">
                                 <h4 className="h4">Implementation Phase</h4>
@@ -149,7 +149,7 @@ const Program = () => {
                     </div>
                 </div>
             </div>
-            <div className="p-4 flex items-center justify-center gap-10 max-lg:gap-5">
+            <div className="p-4 flex items-center max-lg:flex-col justify-center gap-10 max-lg:gap-5">
                 <button onClick={handleModalClick} className='primarybtn'>Enroll for free</button>
                 <Link target='_blank' href="https://docs.google.com/document/d/1EkSocAs3-oGCURtTuN9DStagPBZMFbnpEV2Dx-8x8ms/edit?tab=t.0#heading=h.6cvjyq84qj27" className='psbtn bg-white'>Learn more about each phase</Link>
             </div>
