@@ -70,29 +70,24 @@ const OpportunityDetails = ({ params }) => {
     }
   
     try {
-      const response = await fetch(`/api/opportunities/interact?userId=${session.user.id}`, {
-        method: "POST",
+      const response = await fetch(`/api/opportunities/interact`, {
+        method: "POST", // Ensure method is POST
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ 
-          opportunityId: id, 
-          status 
+        body: JSON.stringify({
+          opportunityId: id,
+          status,
+          userId: session.user.id, // Include user ID
         }),
       });
   
       if (response.ok) {
         const interaction = await response.json();
-        
-        // Update local state
         setUserInteractions((prev) => {
-          // Remove previous interactions of the same type
-          const filteredInteractions = prev.filter(
-            (inter) => inter.status !== status
-          );
-          return [...filteredInteractions, { opportunityId: id, status }];
+          const filteredInteractions = prev.filter((inter) => inter.status !== status);
+          return [...filteredInteractions, interaction];
         });
-  
         toast.success(`Opportunity marked as ${status}`);
       } else {
         const errorResponse = await response.json();
@@ -103,6 +98,7 @@ const OpportunityDetails = ({ params }) => {
       toast.error("An error occurred");
     }
   };
+  
   
 
   // Time calculation logic (same as before)
