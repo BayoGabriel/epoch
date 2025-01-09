@@ -23,6 +23,8 @@ const UserSchema = new mongoose.Schema({
     enum: ['user', 'admin'], 
     default: 'user' 
   },
+  trackedOpportunities: [{ type: mongoose.Schema.Types.ObjectId, ref: "Opportunity" }],
+  appliedOpportunities: [{ type: mongoose.Schema.Types.ObjectId, ref: "Opportunity" }],
 });
 
 const User = mongoose.models.User || mongoose.model('User', UserSchema);

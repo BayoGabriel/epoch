@@ -108,7 +108,7 @@ const Navbar = () => {
             <Link
               href="/prospecta"
               className={`text-nowrap text-[16px] font-[400] ${
-                pathName === "/prospecta" ? "text-accent" : "text-grey"
+                pathName.startsWith("/prospecta") ? "text-accent" : "text-grey"
               }`}
               onClick={closeMenus}
             >

@@ -11,7 +11,7 @@ import {
   parseISO 
 } from "date-fns";
 import opp from "@/public/opp.svg";
-import { toast } from "react-toastify";
+import { toast } from "react-toastify"; // Assuming you're using react-toastify for notifications
 
 const OpportunityDetails = ({ params }) => {
   const { id } = params;
@@ -26,7 +26,9 @@ const OpportunityDetails = ({ params }) => {
       const fetchOpportunityDetails = async () => {
         try {
           const response = await fetch(`/api/opportunities/individual?id=${id}`);
-          if (!response.ok) throw new Error("Failed to fetch opportunity details");
+          if (!response.ok) {
+            throw new Error("Failed to fetch opportunity details");
+          }
           const data = await response.json();
           setOpportunity(data);
           setLoading(false);
@@ -40,7 +42,7 @@ const OpportunityDetails = ({ params }) => {
     }
   }, [id]);
 
-  // Fetch user interactions
+  // Fetch user interactions for this opportunity
   useEffect(() => {
     const fetchUserInteractions = async () => {
       if (session && id) {
@@ -51,7 +53,7 @@ const OpportunityDetails = ({ params }) => {
             setUserInteractions(interactions);
           }
         } catch (error) {
-          console.error("Error fetching user interactions:", error);
+          console.error('Error fetching user interactions:', error);
         }
       }
     };
@@ -59,77 +61,138 @@ const OpportunityDetails = ({ params }) => {
     fetchUserInteractions();
   }, [session, id]);
 
+  // Handle opportunity interaction (applied/tracking)
+  
   const handleInteraction = async (status) => {
     if (!session) {
       toast.error("Please log in to interact with this opportunity");
       return;
     }
-
+  
     try {
-      const response = await fetch("/api/opportunities/interact", {
+      const response = await fetch(`/api/opportunities/interact?userId=${session.user.id}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ opportunityId: id, status }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+          opportunityId: id, 
+          status 
+        }),
       });
-
+  
       if (response.ok) {
         const interaction = await response.json();
-        setUserInteractions((prev) =>
-          [...prev.filter((inter) => inter.status !== status), interaction]
-        );
+        
+        // Update local state
+        setUserInteractions((prev) => {
+          // Remove previous interactions of the same type
+          const filteredInteractions = prev.filter(
+            (inter) => inter.status !== status
+          );
+          return [...filteredInteractions, { opportunityId: id, status }];
+        });
+  
         toast.success(`Opportunity marked as ${status}`);
       } else {
-        toast.error(`Failed to mark as ${status}`);
+        const errorResponse = await response.json();
+        toast.error(`Failed to mark as ${status}: ${errorResponse.message}`);
       }
     } catch (error) {
       console.error("Error interacting with opportunity:", error);
       toast.error("An error occurred");
     }
   };
+  
 
-  if (loading) return <div>Loading...</div>;
-  if (!opportunity) return <div>Opportunity not found.</div>;
+  // Time calculation logic (same as before)
+  if (loading) {
+    return <div className="w-full h-screen flex items-center justify-center">Loading...</div>;
+  }
 
-  const timeAgo = (() => {
-    const postedDate = parseISO(opportunity.dateCreated);
-    const now = new Date();
-    const weeksAgo = differenceInWeeks(now, postedDate);
-    const daysAgo = differenceInDays(now, postedDate);
-    const hoursAgo = differenceInHours(now, postedDate);
-    const minutesAgo = differenceInMinutes(now, postedDate);
+  if (!opportunity) {
+    return <div>Opportunity not found.</div>;
+  }
 
-    if (weeksAgo > 0) return `${weeksAgo} week${weeksAgo > 1 ? "s" : ""} ago`;
-    if (daysAgo > 0) return `${daysAgo} day${daysAgo > 1 ? "s" : ""} ago`;
-    if (hoursAgo > 0) return `${hoursAgo} hour${hoursAgo > 1 ? "s" : ""} ago`;
-    return `${minutesAgo} minute${minutesAgo > 1 ? "s" : ""} ago`;
-  })();
+  const postedDate = parseISO(opportunity.dateCreated);
+  const now = new Date();
 
-  const isApplied = userInteractions.some((inter) => inter.status === "applied");
-  const isTracking = userInteractions.some((inter) => inter.status === "tracking");
+  const weeksAgo = differenceInWeeks(now, postedDate);
+  const daysAgo = differenceInDays(now, postedDate);
+  const hoursAgo = differenceInHours(now, postedDate);
+  const minutesAgo = differenceInMinutes(now, postedDate);
+
+  let timeAgo = "";
+
+  if (weeksAgo > 0) {
+    timeAgo = `${weeksAgo} ${weeksAgo === 1 ? "week" : "weeks"} ago`;
+  } else if (daysAgo > 0) {
+    timeAgo = `${daysAgo} ${daysAgo === 1 ? "day" : "days"} ago`;
+  } else if (hoursAgo > 0) {
+    timeAgo = `${hoursAgo} ${hoursAgo === 1 ? "hour" : "hours"} ago`;
+  } else if (minutesAgo > 0) {
+    timeAgo = `${minutesAgo} ${minutesAgo === 1 ? "minute" : "minutes"} ago`;
+  } else {
+    timeAgo = "Just now";
+  }
+
+  // Check if user has already applied or is tracking
+  const isApplied = userInteractions.some(
+    interaction => interaction.status === 'applied'
+  );
+  const isTracking = userInteractions.some(
+    interaction => interaction.status === 'tracking'
+  );
 
   return (
-    <div className="mt-40">
-      <div className="opportunity-header">
-        <h1>{opportunity.title}</h1>
-        <p>{opportunity.type}</p>
-        <span>Posted {timeAgo}</span>
-        <div>
-          <button
-            onClick={() => handleInteraction("applied")}
-            className={isApplied ? "btn-applied" : "btn-default"}
-          >
-            {isApplied ? "Applied ✓" : "Mark as Applied"}
-          </button>
-          <button
-            onClick={() => handleInteraction("tracking")}
-            className={isTracking ? "btn-tracking" : "btn-default"}
-          >
-            {isTracking ? "Tracking ✓" : "Track Opportunity"}
-          </button>
+    <>
+      {session ? (
+        <div className="w-full mt-[83px] max-lg:mt-[62px] flex items-center justify-center">
+          <div className="w-full bg-white p-[120px] shadow-lg flex items-center justify-between">
+            <div className="flex flex-col gap-5">
+              <h1 className="h2 text-black">{opportunity.title}</h1>
+              <h3 className="h3 capitalize text-[#403D39CC]">{opportunity.type}</h3>
+              <div className="flex gap-4 items-center">
+                <span className="text-white py-[6px] px-[15px] rounded-[8px] shadow-sm bg-accent">
+                  Posted {timeAgo}
+                </span>
+                
+                {/* Interaction Buttons */}
+                <button 
+                  onClick={() => handleInteraction('applied')}
+                  className={`py-2 px-4 rounded-md ${
+                    isApplied 
+                      ? 'bg-green-500 text-white' 
+                      : 'bg-gray-200 text-gray-700 hover:bg-green-100'
+                  }`}
+                >
+                  {isApplied ? 'Applied ✓' : 'Mark as Applied'}
+                </button>
+  
+                <button 
+                  onClick={() => handleInteraction('tracking')}
+                  className={`py-2 px-4 rounded-md ${
+                    isTracking 
+                      ? 'bg-blue-500 text-white' 
+                      : 'bg-gray-200 text-gray-700 hover:bg-blue-100'
+                  }`}
+                >
+                  {isTracking ? 'Tracking ✓' : 'Track Opportunity'}
+                </button>
+              </div>
+            </div>
+            <Image src={opp} alt="image" className="" />
+          </div>
         </div>
-      </div>
-      <Image src={opp} alt="Opportunity Image" />
-    </div>
+      ) : (
+        <div className="flex flex-col gap-8">
+          <span>You are not logged in!</span>
+          <Link href="/" className="primarybtn">
+            Go to Home page
+          </Link>
+        </div>
+      )}
+    </>
   );
 };
 
