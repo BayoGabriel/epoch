@@ -108,7 +108,7 @@ const OpportunityDetails = ({ params }) => {
   const isTracking = userInteractions.some((inter) => inter.status === "tracking");
 
   return (
-    <div className="opportunity-details">
+    <div className="mt-40">
       <div className="opportunity-header">
         <h1>{opportunity.title}</h1>
         <p>{opportunity.type}</p>
