@@ -42,25 +42,6 @@ const OpportunityDetails = ({ params }) => {
     }
   }, [id]);
 
-  // Fetch user interactions for this opportunity
-  useEffect(() => {
-    const fetchUserInteractions = async () => {
-      if (session && id) {
-        try {
-          const response = await fetch(`/api/opportunities/interact?opportunityId=${id}`);
-          if (response.ok) {
-            const interactions = await response.json();
-            setUserInteractions(interactions);
-          }
-        } catch (error) {
-          console.error('Error fetching user interactions:', error);
-        }
-      }
-    };
-
-    fetchUserInteractions();
-  }, [session, id]);
-
   // Handle opportunity interaction (applied/tracking)
   
   const handleInteraction = async (status) => {
