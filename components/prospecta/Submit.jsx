@@ -249,7 +249,7 @@ const SubmitOpportunity = () => {
                 value={formData.description}
                 onChange={handleChange}
                 required
-                placeholder='Enter a description for the scholarship'
+                placeholder='Enter a description for the opportunity'
                 className='w-full px-5 py-[15px] max-lg:p-3 max-lg:placeholder:text-[10px] max-lg:text-[10px] border focus:outline-none focus:ring-accent focus:border-accent placeholder:text-[#403D39CC] text-[#403D39CC] border-[#DCDEE1] rounded-[8px]'
               />
             </div>

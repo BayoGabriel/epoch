@@ -259,7 +259,7 @@ const Hero = () => {
                   <Image src={opp} alt="image" className="w-20 h-auto" />
                 </div>
                 <div className="flex-1 flex flex-col gap-3">
-                  <h3 className="h4 capitalize">{opportunity.title}</h3>
+                  <h3 className="h4 capitalize">{opportunity.institution}</h3>
                   <p className="bt1 capitalize">{opportunity.type}</p>
                 </div>
                 <div className="flex-1 flex flex-col gap-3">
@@ -269,7 +269,7 @@ const Hero = () => {
                   </p>
                 </div>
                 <div className="flex-1">
-                  <p className="">{opportunity.description}</p>
+                  <p className="">{opportunity.description.slice(0, 100)}</p>
                 </div>
                 <div className="flex-shrink-0 py-4">
                   <Link

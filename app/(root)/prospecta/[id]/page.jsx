@@ -20,17 +20,26 @@ const OpportunityDetails = ({ params }) => {
   const [loading, setLoading] = useState(true);
   const [userInteractions, setUserInteractions] = useState([]);
 
-  // Fetch opportunity details
+  // Fetch opportunity details and user interactions
   useEffect(() => {
-    if (id) {
-      const fetchOpportunityDetails = async () => {
+    if (id && session?.user?.id) {
+      const fetchData = async () => {
         try {
-          const response = await fetch(`/api/opportunities/individual?id=${id}`);
-          if (!response.ok) {
+          // Fetch opportunity details
+          const oppResponse = await fetch(`/api/opportunities/individual?id=${id}`);
+          if (!oppResponse.ok) {
             throw new Error("Failed to fetch opportunity details");
           }
-          const data = await response.json();
-          setOpportunity(data);
+          const oppData = await oppResponse.json();
+          setOpportunity(oppData);
+
+          // Fetch user interactions
+          const interactResponse = await fetch(`/api/opportunities/interact?userId=${session.user.id}&opportunityId=${id}`);
+          if (interactResponse.ok) {
+            const interactData = await interactResponse.json();
+            setUserInteractions(interactData);
+          }
+          
           setLoading(false);
         } catch (error) {
           console.error(error);
@@ -38,49 +47,53 @@ const OpportunityDetails = ({ params }) => {
         }
       };
 
-      fetchOpportunityDetails();
+      fetchData();
     }
-  }, [id]);
+  }, [id, session]);
 
   // Handle opportunity interaction (applied/tracking)
-  
   const handleInteraction = async (status) => {
     if (!session) {
       toast.error("Please log in to interact with this opportunity");
       return;
     }
-  
+
     try {
-      const response = await fetch(`/api/opportunities/interact`, {
-        method: "POST", // Ensure method is POST
+      const response = await fetch('/api/opportunities/interact', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           opportunityId: id,
+          userId: session.user.id,
           status,
-          userId: session.user.id, // Include user ID
         }),
       });
-  
+
+      const data = await response.json();
+
       if (response.ok) {
-        const interaction = await response.json();
-        setUserInteractions((prev) => {
-          const filteredInteractions = prev.filter((inter) => inter.status !== status);
-          return [...filteredInteractions, interaction];
-        });
-        toast.success(`Opportunity marked as ${status}`);
+        // If it was a toggle-off operation
+        if (data.message && data.message.includes('removed')) {
+          setUserInteractions(prev => prev.filter(inter => inter.status !== status));
+          toast.success(`Removed ${status} status`);
+        } else {
+          // Update local state for new/updated interaction
+          setUserInteractions(prev => {
+            const filtered = prev.filter(inter => inter.status !== status);
+            return [...filtered, data];
+          });
+          toast.success(`Successfully marked as ${status}`);
+        }
       } else {
-        const errorResponse = await response.json();
-        toast.error(`Failed to mark as ${status}: ${errorResponse.message}`);
+        toast.error(data.message || `Failed to update ${status} status`);
       }
     } catch (error) {
-      console.error("Error interacting with opportunity:", error);
-      toast.error("An error occurred");
+      console.error('Error:', error);
+      toast.error('An error occurred while processing your request');
     }
   };
-  
-  
 
   // Time calculation logic (same as before)
   if (loading) {
@@ -114,10 +127,10 @@ const OpportunityDetails = ({ params }) => {
   }
 
   // Check if user has already applied or is tracking
-  const isApplied = userInteractions.some(
+  const isApplied = userInteractions && userInteractions.some(
     interaction => interaction.status === 'applied'
   );
-  const isTracking = userInteractions.some(
+  const isTracking = userInteractions && userInteractions.some(
     interaction => interaction.status === 'tracking'
   );
 
@@ -127,7 +140,18 @@ const OpportunityDetails = ({ params }) => {
         <div className="w-full mt-[83px] max-lg:mt-[62px] flex items-center justify-center">
           <div className="w-full bg-white p-[120px] shadow-lg flex items-center justify-between">
             <div className="flex flex-col gap-5">
-              <h1 className="h2 text-black">{opportunity.title}</h1>
+              {opportunity.imageUrl ? (
+                <Image 
+                  src={opportunity.imageUrl} 
+                  alt={opportunity.title} 
+                  width={200} 
+                  height={200} 
+                  className="rounded-lg object-cover mb-4"
+                />
+              ) : (
+                <Image src={opp} alt="default" className="w-40 h-auto mb-4" />
+              )}
+              <h1 className="h2 text-black">{opportunity.institution}</h1>
               <h3 className="h3 capitalize text-[#403D39CC]">{opportunity.type}</h3>
               <div className="flex gap-4 items-center">
                 <span className="text-white py-[6px] px-[15px] rounded-[8px] shadow-sm bg-accent">
@@ -145,7 +169,7 @@ const OpportunityDetails = ({ params }) => {
                 >
                   {isApplied ? 'Applied ✓' : 'Mark as Applied'}
                 </button>
-  
+
                 <button 
                   onClick={() => handleInteraction('tracking')}
                   className={`py-2 px-4 rounded-md ${
@@ -157,8 +181,29 @@ const OpportunityDetails = ({ params }) => {
                   {isTracking ? 'Tracking ✓' : 'Track Opportunity'}
                 </button>
               </div>
+              
+              {/* Add description and other details */}
+              <div className="mt-8">
+                <h4 className="h4 mb-2">Description</h4>
+                <p className="text-gray-700">{opportunity.description}</p>
+              </div>
+              
+              <div className="mt-4">
+                <h4 className="h4 mb-2">Position</h4>
+                <p className="text-gray-700">{opportunity.position}</p>
+              </div>
+              
+              <div className="mt-4">
+                <Link 
+                  href={opportunity.applyLink} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-accent text-white py-2 px-6 rounded-md hover:bg-opacity-90"
+                >
+                  Apply Now
+                </Link>
+              </div>
             </div>
-            <Image src={opp} alt="image" className="" />
           </div>
         </div>
       ) : (

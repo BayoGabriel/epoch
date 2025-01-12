@@ -85,10 +85,20 @@ const NewOpportunity = () => {
             >
               <div className="w-full flex items-center gap-4">
               <div className="flex-shrink-0">
-                <Image src={opp} alt="image" className="w-20 h-auto" />
+                {opportunity.imageUrl ? (
+                  <Image 
+                    src={opportunity.imageUrl} 
+                    alt={opportunity.title} 
+                    width={80} 
+                    height={80} 
+                    className="w-20 h-20 object-cover rounded-lg"
+                  />
+                ) : (
+                  <Image src={opp} alt="default" className="w-20 h-auto" />
+                )}
               </div>
               <div className="flex-1 flex flex-col gap-[6px]">
-                <h3 className="h4 capitalize">{opportunity.title}</h3>
+                <h3 className="h4 capitalize">{opportunity.institution}</h3>
                 <p className="bt1 capitalize">{opportunity.type}</p>
               </div>
               </div>
@@ -123,12 +133,22 @@ const NewOpportunity = () => {
             >
               {/* Image Section */}
               <div className="flex-shrink-0">
-                <Image src={opp} alt="image" className="w-20 h-auto" />
+                {opportunity.imageUrl ? (
+                  <Image 
+                    src={opportunity.imageUrl} 
+                    alt={opportunity.title} 
+                    width={80} 
+                    height={80} 
+                    className="w-20 h-20 object-cover rounded-lg"
+                  />
+                ) : (
+                  <Image src={opp} alt="default" className="w-20 h-auto" />
+                )}
               </div>
 
               {/* Title and Type */}
               <div className="flex-1 flex flex-col gap-3">
-                <h3 className="h4 capitalize">{opportunity.title}</h3>
+                <h3 className="h4 capitalize">{opportunity.institution}</h3>
                 <p className="bt1 capitalize">{opportunity.type}</p>
               </div>
 
@@ -142,7 +162,7 @@ const NewOpportunity = () => {
 
               {/* Description */}
               <div className="flex-1">
-                <p className="">{opportunity.description}</p>
+                <p className="">{opportunity.description.slice(0, 30)}...</p>
               </div>
 
               {/* Apply Button */}
