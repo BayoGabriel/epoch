@@ -95,17 +95,13 @@ const Hero = () => {
         >
           <div className="flex items-center gap-4">
             <div className="flex-shrink-0">
-              {opportunity.imageUrl ? (
-                <Image 
-                  src={opportunity.imageUrl} 
-                  alt={opportunity.title} 
-                  width={80} 
-                  height={80} 
-                  className="w-20 h-20 object-cover rounded-lg"
-                />
-              ) : (
-                <Image src={opp} alt="default" className="w-20 h-auto" />
-              )}
+              <Image 
+                src={opportunity.imageUrl || 'https://res.cloudinary.com/dq1uyidfy/image/upload/v1704993600/opportunities/default_opportunity.png'} 
+                alt={opportunity.title} 
+                width={80} 
+                height={80} 
+                className="w-20 h-20 object-cover rounded-lg"
+              />
             </div>
             <div className="flex flex-col gap-2">
               <h3 className="text-xl font-semibold">{opportunity.institution}</h3>

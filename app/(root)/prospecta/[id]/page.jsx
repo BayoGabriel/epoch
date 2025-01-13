@@ -140,17 +140,13 @@ const OpportunityDetails = ({ params }) => {
         <div className="w-full mt-[83px] max-lg:mt-[62px] flex items-center justify-center">
           <div className="w-full bg-white p-[120px] shadow-lg flex items-center justify-between">
             <div className="flex flex-col gap-5">
-              {opportunity.imageUrl ? (
-                <Image 
-                  src={opportunity.imageUrl} 
-                  alt={opportunity.title} 
-                  width={200} 
-                  height={200} 
-                  className="rounded-lg object-cover mb-4"
-                />
-              ) : (
-                <Image src={opp} alt="default" className="w-40 h-auto mb-4" />
-              )}
+              <Image 
+                src={opportunity.imageUrl || opp} 
+                alt={opportunity.title} 
+                width={200} 
+                height={200} 
+                className="rounded-lg object-cover mb-4"
+              />
               <h1 className="h2 text-black">{opportunity.institution}</h1>
               <h3 className="h3 capitalize text-[#403D39CC]">{opportunity.type}</h3>
               <div className="flex gap-4 items-center">

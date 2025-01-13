@@ -1,7 +1,7 @@
 import connectMongo from '@/utils/mongodb';
 import Opportunity from '@/models/opportunity';
 import User from '@/models/User';
-import cloudinary from '@/utils/cloudinary'; // Assuming you have a cloudinary utility file
+import cloudinary from '@/utils/cloudinary';
 
 export async function POST(req) {
   await connectMongo();
@@ -30,6 +30,14 @@ export async function POST(req) {
         folder: 'opportunities',
       });
       imageUrl = result.secure_url;
+    } else {
+      // If no image provided, upload the default image from public/opp.svg
+      const defaultImage = await cloudinary.uploader.upload('public/opp.svg', {
+        folder: 'opportunities',
+        public_id: 'default_opportunity',
+        overwrite: true,
+      });
+      imageUrl = defaultImage.secure_url;
     }
 
     const user = await User.findById(createdBy);

@@ -8,7 +8,10 @@ const OpportunitySchema = new mongoose.Schema({
   position: { type: String, required: true },
   dateCreated: { type: Date, default: Date.now },
   applicationDeadline: { type: Date, required: true },
-  imageUrl: { type: String },
+  imageUrl: { 
+    type: String,
+    default: 'https://res.cloudinary.com/dq1uyidfy/image/upload/v1704993600/opportunities/default_opportunity.png'
+  },
   applyLink: { type: String, required: true },
   status: { type: String, enum: ['pending', 'approved', 'rejected', 'expired'], default: 'pending' },
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },

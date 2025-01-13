@@ -256,7 +256,7 @@ const Hero = () => {
                 className="oppcard px-5 py-[10px] gap-8 flex lg:justify-between max-lg:flex-col items-center"
               >
                 <div className="flex-shrink-0">
-                  <Image src={opp} alt="image" className="w-20 h-auto" />
+                  <Image src={opportunity.imageUrl || opp} alt="image" width={50} height={50} className="w-20 h-auto" />
                 </div>
                 <div className="flex-1 flex flex-col gap-3">
                   <h3 className="h4 capitalize">{opportunity.institution}</h3>
@@ -295,7 +295,7 @@ const Hero = () => {
             >
               <div className="w-full flex items-center gap-4">
               <div className="flex-shrink-0">
-                <Image src={opp} alt="image" className="w-20 h-auto" />
+                <Image src={opportunity.imageUrl || opp} alt="image" className="w-20 h-auto" width={50} height={50} />
               </div>
               <div className="flex-1 flex flex-col gap-[6px]">
                 <h3 className="h4 capitalize">{opportunity.institution}</h3>

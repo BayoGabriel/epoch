@@ -36,6 +36,7 @@ const SubmitOpportunity = () => {
       <>
         <div className="flex flex-col items-center justify-center">
           <Image src={upload} alt='upload' className='mb-5 max-lg:mb-2 max-lg:size-[10px]'/>
+
           <p className="mb-2 text-[16px] max-lg:text-[6px] font-[900] text-center">Drag & Drop or <span className="font-[400] text-[#3777FF] gilroy">Choose file</span> to upload</p>
           <span className="text-[14px] font-[400] text-center max-lg:text-[6px]">Supported formats: JPG, JPEG, PNG, PDF</span>
         </div>
@@ -74,6 +75,16 @@ const SubmitOpportunity = () => {
     const applicationDeadline = `${formData.year}-${formData.month.padStart(2, '0')}-${formData.day.padStart(2, '0')}`;
   
     try {
+      // Convert image file to base64 if it exists
+      let imageData = null;
+      if (file) {
+        const reader = new FileReader();
+        imageData = await new Promise((resolve) => {
+          reader.onloadend = () => resolve(reader.result);
+          reader.readAsDataURL(file);
+        });
+      }
+
       const response = await fetch('/api/opportunities/submit', {
         method: 'POST',
         headers: {
@@ -87,7 +98,8 @@ const SubmitOpportunity = () => {
           deadline: applicationDeadline,
           position: formData.position,
           type: formData.type, 
-          createdBy: userId, 
+          createdBy: userId,
+          image: imageData, // Add the image data
         }),
       });
   
@@ -126,7 +138,6 @@ const SubmitOpportunity = () => {
     }
   };
 
-  
   
   return (
     <>
