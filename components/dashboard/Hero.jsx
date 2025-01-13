@@ -6,6 +6,8 @@ import Image from 'next/image';
 import { differenceInDays, format, parseISO } from 'date-fns';
 import opp from "@/public/opp.svg";
 import { toast } from 'react-toastify';
+import { IoTimeOutline } from 'react-icons/io5';
+import { BsClockHistory } from 'react-icons/bs';
 
 const Hero = () => {
   const { data: session } = useSession();
@@ -15,6 +17,7 @@ const Hero = () => {
   });
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('applied');
+  const [recentActivities, setRecentActivities] = useState([]);
 
   // Fetch user's opportunities
   useEffect(() => {
@@ -31,6 +34,13 @@ const Hero = () => {
         }
         const data = await response.json();
         setOpportunities(data);
+
+        // Get recent activities (last 3 interactions)
+        const allInteractions = [...(data.applied || []), ...(data.tracking || [])]
+          .sort((a, b) => new Date(b.dateInteracted) - new Date(a.dateInteracted))
+          .slice(0, 3);
+        setRecentActivities(allInteractions);
+
         setLoading(false);
       } catch (error) {
         console.error('Error:', error);
@@ -75,65 +85,60 @@ const Hero = () => {
 
   // Render opportunities list
   const renderOpportunityList = (opportunityList, status) => {
-    if (opportunityList.length === 0) {
-      return (
-        <div className="text-center py-10 text-gray-500">
-          No {status} opportunities
-        </div>
-      );
+    if (!opportunityList || opportunityList.length === 0) {
+      return <p className="text-gray-500">No opportunities found</p>;
     }
 
     return opportunityList.map((opportunity) => {
-      // Calculate days until application deadline
-      const deadlineDate = parseISO(opportunity.applicationDeadline);
-      const daysRemaining = differenceInDays(deadlineDate, new Date());
+      if (!opportunity) return null;
       
-      return (
-        <div 
-          key={opportunity._id} 
-          className="bg-white shadow-md rounded-lg p-6 mb-4 flex justify-between items-center"
-        >
-          <div className="flex items-center gap-4">
-            <div className="flex-shrink-0">
-              <Image 
-                src={opportunity.imageUrl || 'https://res.cloudinary.com/dq1uyidfy/image/upload/v1704993600/opportunities/default_opportunity.png'} 
-                alt={opportunity.title} 
-                width={80} 
-                height={80} 
-                className="w-20 h-20 object-cover rounded-lg"
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <h3 className="text-xl font-semibold">{opportunity.institution}</h3>
-              <p className="text-gray-600 capitalize">{opportunity.type}</p>
-              <p className="text-gray-600">Position: {opportunity.position}</p>
-            </div>
-          </div>
-          
-          <div className="flex flex-col items-end gap-2">
-            <div className="text-sm">
-              {daysRemaining > 0 ? (
-                <span className="text-green-600">{daysRemaining} days remaining</span>
-              ) : (
-                <span className="text-red-600">Deadline passed</span>
+      // Calculate days until application deadline
+      try {
+        const deadlineDate = opportunity.applicationDeadline ? parseISO(opportunity.applicationDeadline) : null;
+        const daysUntilDeadline = deadlineDate ? differenceInDays(deadlineDate, new Date("2025-01-13T22:17:16+01:00")) : null;
+
+        return (
+          <div key={opportunity._id} className="flex flex-col gap-2 p-4 bg-white rounded-lg shadow">
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold">{opportunity.institution}</h3>
+              {daysUntilDeadline !== null && (
+                <span className={`text-sm ${
+                  daysUntilDeadline <= 7 ? 'text-red-500' : 'text-gray-500'
+                }`}>
+                  {daysUntilDeadline <= 0
+                    ? 'Deadline passed'
+                    : `${daysUntilDeadline} days left`}
+                </span>
               )}
             </div>
-            <Link 
-              href={`/prospecta/${opportunity._id}`}
-              className="text-blue-600 hover:underline"
-            >
-              View Details
-            </Link>
-            <button
-              onClick={() => handleRemoveInteraction(opportunity._id, status)}
-              className="text-red-600 hover:text-red-800"
-            >
-              Remove
-            </button>
+            <p className="text-sm text-gray-600 capitalize">{opportunity.type}</p>
+            <p className="text-sm text-gray-600">Position: {opportunity.position}</p>
+            {deadlineDate && (
+              <p className="text-sm text-gray-600">
+                Deadline: {format(deadlineDate, "MMM do, yyyy")}
+              </p>
+            )}
+            <div className="flex justify-end mt-2">
+              <Link
+                href={`/prospecta/${opportunity._id}`}
+                className="text-primary hover:text-primary/80 transition-colors duration-200"
+              >
+                View Details
+              </Link>
+              <button
+                onClick={() => handleRemoveInteraction(opportunity._id, status)}
+                className="text-red-600 hover:text-red-800 ml-4"
+              >
+                Remove
+              </button>
+            </div>
           </div>
-        </div>
-      );
-    });
+        );
+      } catch (error) {
+        console.error('Error rendering opportunity:', error);
+        return null;
+      }
+    }).filter(Boolean); // Remove null entries
   };
 
   if (!session) {
@@ -150,7 +155,10 @@ const Hero = () => {
   return (
     <div className="w-full bg-[#F5F5F5] min-h-screen pt-[95px] max-lg:pt-[62px] px-8">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">My Opportunities</h1>
+        <h1 className="h2 mb-8">
+          Welcome, {session?.user?.name || session?.user?.email?.split('@')[0] || 'User'}
+        </h1>
+        <h2 className="h4 mb-4">Upcoming Deadlines</h2>
         
         {/* Tabs */}
         <div className="flex gap-4 mb-6">
@@ -188,6 +196,46 @@ const Hero = () => {
             )}
           </div>
         )}
+
+        {/* Recent Activities */}
+        <div className="mt-12">
+          <div className="flex items-center gap-2 mb-6">
+            <BsClockHistory className="h4 text-gray-700" />
+            <h2 className="h4 text-gray-900">Recent Activities</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {recentActivities.map((activity) => (
+              <div key={activity._id} className="bg-white rounded-lg shadow-sm overflow-hidden">
+                <div className="p-6">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="h-12 w-12 flex-shrink-0">
+                      <Image
+                        src={activity.imageUrl || opp}
+                        alt={activity.institution}
+                        width={48}
+                        height={48}
+                        className="h-full w-full object-cover rounded-lg"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="bt2 text-gray-900">{activity.institution}</h3>
+                      <p className="bt2 text-gray-500 capitalize">{activity.type}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="inline-flex items-center bt2 text-gray-500">
+                      <IoTimeOutline className="mr-1" />
+                      {format(parseISO(activity.dateInteracted), 'MMM do yyyy')}
+                    </span>
+                    <span className="`bt2 capitalize text-primary">
+                      {activity.interactionStatus}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import connectMongo from '@/utils/mongodb';
 import User from '@/models/User';
 
-const handler = NextAuth({
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -15,51 +15,70 @@ const handler = NextAuth({
       async authorize(credentials) {
         const { email, password } = credentials;
 
-        // Connect to MongoDB
-        await connectMongo();
+        try {
+          await connectMongo();
+          const user = await User.findOne({ email });
+          
+          if (!user) {
+            throw new Error('No user found with this email');
+          }
 
-        // Find user by email
-        const user = await User.findOne({ email });
-        if (!user) {
-          throw new Error('No user found with this email');
+          const isMatch = await bcrypt.compare(password, user.password);
+          if (!isMatch) {
+            throw new Error('Incorrect password');
+          }
+
+          return {
+            id: user._id.toString(),
+            email: user.email,
+            name: user.name,
+            role: user.role,
+            school: user.school
+          };
+        } catch (error) {
+          console.error('Auth error:', error);
+          return null;
         }
-
-        // Compare password
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-          throw new Error('Incorrect password');
-        }
-
-        // Return user object if authentication is successful
-        return {
-          id: user._id,
-          email: user.email,
-          username: user.username,
-          school: user.school,
-        };
       },
     }),
   ],
-  pages: {
-    signIn: '/auth/signin', // Custom sign-in page
-  },
   callbacks: {
-    async session({ session, token }) {
-      session.user.id = token.id;
-      session.user.username = token.username;
-      session.user.school = token.school;
-      return session;
-    },
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id;
-        token.username = user.username;
+        token.email = user.email;
+        token.name = user.name;
+        token.role = user.role;
         token.school = user.school;
       }
+
+      // Handle role updates
+      if (trigger === 'update' && session?.role) {
+        token.role = session.role;
+      }
+
       return token;
     },
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id;
+        session.user.email = token.email;
+        session.user.name = token.name;
+        session.user.role = token.role;
+        session.user.school = token.school;
+      }
+      return session;
+    },
+  },
+  pages: {
+    signIn: '/auth/signin',
+  },
+  session: {
+    strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   secret: process.env.NEXTAUTH_SECRET,
-});
+};
 
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

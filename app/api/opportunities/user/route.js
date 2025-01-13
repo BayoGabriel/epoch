@@ -16,13 +16,31 @@ export async function GET(req) {
 
     // Find all interactions for the user and populate opportunity details
     const interactions = await UserOpportunityInteraction.find({ user: userId })
-      .populate('opportunity')
+      .populate({
+        path: 'opportunity',
+        match: { status: { $ne: 'archived' } } // Only get non-archived opportunities
+      })
       .sort({ dateInteracted: -1 });
 
-    // Group interactions by status
+    // Filter out interactions where opportunity is null (deleted or archived)
+    const validInteractions = interactions.filter(i => i.opportunity !== null);
+
+    // Group valid interactions by status
     const groupedInteractions = {
-      applied: interactions.filter(i => i.status === 'applied').map(i => i.opportunity),
-      tracking: interactions.filter(i => i.status === 'tracking').map(i => i.opportunity)
+      applied: validInteractions
+        .filter(i => i.status === 'applied')
+        .map(i => ({
+          ...i.opportunity.toObject(),
+          interactionStatus: 'applied',
+          dateInteracted: i.dateInteracted
+        })),
+      tracking: validInteractions
+        .filter(i => i.status === 'tracking')
+        .map(i => ({
+          ...i.opportunity.toObject(),
+          interactionStatus: 'tracking',
+          dateInteracted: i.dateInteracted
+        }))
     };
 
     return new Response(

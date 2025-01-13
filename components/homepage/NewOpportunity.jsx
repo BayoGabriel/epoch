@@ -129,13 +129,7 @@ const NewOpportunity = () => {
             >
               {/* Image Section */}
               <div className="flex-shrink-0">
-                <Image 
-                  src={opportunity.imageUrl || 'https://res.cloudinary.com/dq1uyidfy/image/upload/v1704993600/opportunities/default_opportunity.png'} 
-                  alt={opportunity.title} 
-                  width={80} 
-                  height={80} 
-                  className="w-20 h-20 object-cover rounded-lg"
-                />
+              <Image src={opportunity.imageUrl || opp} alt="image" width={50} height={50} className="w-20 h-auto" />
               </div>
 
               {/* Title and Type */}
