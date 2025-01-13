@@ -113,11 +113,11 @@ const Hero = () => {
             <p className="bt1 lg:w-[608px] text-center">Explore internships, scholarships, and more to gain experience, build your network, and accelerate your career journey.</p>
           </div>
           <div className="flex items-center flex-col w-full gap-[32px] lg:px-40 max-lg:pb-10 max-lg:gap-[16px] justify-center">
-            <div className="flex relative items-center">
+            <div className="flex max-md:px-2 relative items-center">
               <input
                 type="text"
                 placeholder="Search for an opportunity"
-                className="px-8 max-lg:px-4 max-lg:py-2 py-3 max-lg:rounded-[16px] lg:rounded-[32px] lg:w-[560px] w-[327px] h-9 lg:h-[64px] appearance-none block border border-[#DCDEE1] max-lg:placeholder:text-[12px] placeholder-gray-500 focus:outline-none focus:ring-accent focus:border-accent sm:text-sm"
+                className="px-8 max-lg:px-4 max-lg:py-2 py-3 max-lg:rounded-[16px] lg:rounded-[32px] lg:w-[560px] w-[327px] max-md:w-full h-9 lg:h-[64px] appearance-none block border border-[#DCDEE1] max-lg:placeholder:text-[12px] placeholder-gray-500 focus:outline-none focus:ring-accent focus:border-accent sm:text-sm"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -298,7 +298,7 @@ const Hero = () => {
                 <Image src={opp} alt="image" className="w-20 h-auto" />
               </div>
               <div className="flex-1 flex flex-col gap-[6px]">
-                <h3 className="h4 capitalize">{opportunity.title}</h3>
+                <h3 className="h4 capitalize">{opportunity.institution}</h3>
                 <p className="bt1 capitalize">{opportunity.type}</p>
               </div>
               </div>
@@ -308,14 +308,16 @@ const Hero = () => {
                   Deadline: {format(new Date(opportunity.applicationDeadline), "MMM do, yyyy")}
                 </p>
               </div>
+              <div className="w-full">
+                <p className="bt2">{opportunity.description.slice(0, 100)}</p>
+              </div>
               <div className="flex-shrink-0 w-full py-4">
                 <Link
-                  href={opportunity.applyLink}
-                  target="_blank"
+                  href={`/prospecta/${opportunity._id}`}
                   rel="noopener noreferrer"
                   className="border border-[#DCDEE1] rounded-[8px] px-[15px] py-[6px] oppbtn text-[14px] font-[400]"
                 >
-                  Apply
+                  View Opportunity
                 </Link>
               </div>
             </div>

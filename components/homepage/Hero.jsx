@@ -82,7 +82,7 @@ const Hero = () => {
                         Join Epoch Today
                       </button>
                     ) : (
-                      <span className='primarybtn'>Hey, {session.user.username}</span>
+                      <Link href='#offerings' className='primarybtn'>Explore Offerings</Link>
                     )}
                     <Link href='/about' className="tbtn">
                     Learn more about Epoch

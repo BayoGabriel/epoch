@@ -44,7 +44,7 @@ const Offer = () => {
 
   return (
     <>
-      <div className="w-full flex-col items-center justify-center py-[140px] max-lg:py-[64px]">
+      <div id="offerings" className="w-full flex-col items-center justify-center py-[140px] max-lg:py-[64px]">
         <div className="flex-col items-center justify-center flex gap-2">
           <h1 className="h2 text-accent text-center">What We Offer</h1>
           <span className="b1">Unlock Your Potential with Epoch</span>
