@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { MdNavigateNext } from 'react-icons/md';
 import Image from 'next/image';
-import opp from "@/public/opp.svg";
+import oppImage from "@/public/opp.svg";
 import { format } from 'date-fns';
 
 const NewOpportunity = () => {
@@ -86,8 +86,8 @@ const NewOpportunity = () => {
               <div className="w-full flex items-center gap-4">
               <div className="flex-shrink-0">
                 <Image 
-                  src={opportunity.imageUrl || 'https://res.cloudinary.com/dq1uyidfy/image/upload/v1704993600/opportunities/default_opportunity.png'} 
-                  alt={opportunity.title} 
+                  src={opportunity.imageUrl || oppImage } 
+                  alt='Opportunity'
                   width={80} 
                   height={80} 
                   className="w-20 h-20 object-cover rounded-lg"
@@ -129,7 +129,13 @@ const NewOpportunity = () => {
             >
               {/* Image Section */}
               <div className="flex-shrink-0">
-              <Image src={opportunity.imageUrl || opp} alt="image" width={50} height={50} className="w-20 h-auto" />
+              <Image 
+                src={opportunity.imageUrl || oppImage } 
+                alt={opportunity.title || 'Opportunity'} 
+                width={50} 
+                height={50} 
+                className="w-20 h-auto"
+              />
               </div>
 
               {/* Title and Type */}

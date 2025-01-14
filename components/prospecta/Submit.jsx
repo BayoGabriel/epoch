@@ -10,7 +10,7 @@ import upload from '@/public/upload.svg'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-const SubmitOpportunity = () => {
+const SubmitOpportunity = ({ onClose }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -66,10 +66,11 @@ const SubmitOpportunity = () => {
   
     if (!session?.user) {
       setError('You need to log in first');
+      setIsSubmitting(false);
       return;
     }
 
-    const userId = session.user.id; // Safely access user ID
+    const userId = session.user.id;
     
     // Combine day, month, year into a valid date format YYYY-MM-DD
     const applicationDeadline = `${formData.year}-${formData.month.padStart(2, '0')}-${formData.day.padStart(2, '0')}`;
@@ -99,7 +100,7 @@ const SubmitOpportunity = () => {
           position: formData.position,
           type: formData.type, 
           createdBy: userId,
-          image: imageData, // Add the image data
+          image: imageData,
         }),
       });
   
@@ -109,15 +110,15 @@ const SubmitOpportunity = () => {
         setError(result.message || 'Error submitting opportunity');
         setSuccess(null);
         toast.error('Submission Failed!', {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       } else {
         setSuccess('Opportunity submitted successfully');
         toast.success('Submission Complete', {
@@ -131,14 +132,48 @@ const SubmitOpportunity = () => {
           theme: "light",
         });
         setError(null);
+        
+        // Reset form
+        setFormData({
+          title: '',
+          description: '',
+          type: 'internship',
+          institution: '',
+          day: '',
+          month: '',
+          year: '',
+          position: '',
+          applyLink: '',
+        });
+        setFile(null);
+        setFileName(deji);
+        
+        // Close modal if onClose prop exists
+        if (onClose) {
+          onClose();
+        }
+        
+        // Refresh the page to show new opportunity
+        router.refresh();
       }
     } catch (err) {
       setError('Error submitting opportunity');
       setSuccess(null);
+      toast.error('Submission Failed!', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  
   return (
     <>
       <div className='my-10 flex items-center justify-center max-lg:px-6'>

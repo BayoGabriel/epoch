@@ -10,7 +10,7 @@ const OpportunitySchema = new mongoose.Schema({
   applicationDeadline: { type: Date, required: true },
   imageUrl: { 
     type: String,
-    default: 'https://res.cloudinary.com/dq1uyidfy/image/upload/v1704993600/opportunities/default_opportunity.png'
+    default: 'https://res.cloudinary.com/dq1uyidfy/image/upload/v1736844758/opp_yby0nw.svg'
   },
   applyLink: { type: String, required: true },
   status: { 
