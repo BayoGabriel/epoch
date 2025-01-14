@@ -104,14 +104,16 @@ const NewOpportunity = () => {
                   Deadline: {format(new Date(opportunity.applicationDeadline), "MMM do, yyyy")}
                 </p>
               </div>
+              <div className="w-full">
+                <p className="bt2">{opportunity.description.slice(0, 40) + "..."}</p>
+              </div>
               <div className="flex-shrink-0 w-full py-4">
                 <Link
                   href={`/prospecta/${opportunity._id}`}
-                  target="_blank"
                   rel="noopener noreferrer"
                   className="border border-[#DCDEE1] rounded-[8px] px-[15px] py-[6px] oppbtn text-[14px] font-[400]"
                 >
-                  Apply
+                  View Opportunity
                 </Link>
               </div>
             </div>

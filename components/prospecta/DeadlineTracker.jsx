@@ -114,14 +114,14 @@ const DeadlineTracker = () => {
 
   return (
     <>
-      <div className="w-full flex justify-center items-center lg:p-[120px] max-lg:p-6">
+      <div className="w-full flex justify-center items-center lg:p-[120px] max-lg:py-6 max-lg:px-2">
         <div className="w-full max-w-7xl">
           <h3 className="h3 text-center lg:mb-6">Deadline Tracker</h3>
           <p className="text-center text-gray-600 mb-8">
             Track all your opportunities ({opportunities.length})
           </p>
 
-          <h4 className="h4 max-lg:text-center lg:mb-3">Filter by</h4>
+          <h4 className="h4 max-lg:text-center mb-3">Filter by</h4>
           <div className="w-full">
             {/* Desktop Filters */}
             <div className="w-full flex items-center gap-6 max-lg:hidden">
@@ -200,7 +200,7 @@ const DeadlineTracker = () => {
                 <select 
                   value={selectedCompany}
                   onChange={(e) => setSelectedCompany(e.target.value)}
-                  className="border focus:outline-none text-[12px] border-[#DCDEE1] p-2 rounded-md text-[#403D39CC]"
+                  className="border focus:outline-none text-[10px] border-[#DCDEE1] p-2 rounded-md text-[#403D39CC]"
                 >
                   <option value="">Company Name</option>
                   {companies.map((company) => (
@@ -212,7 +212,7 @@ const DeadlineTracker = () => {
                 <select
                   value={selectedType}
                   onChange={(e) => setSelectedType(e.target.value)}
-                  className="border focus:outline-none text-[12px] border-[#DCDEE1] p-2 rounded-md text-[#403D39CC]"
+                  className="border focus:outline-none text-[10px] border-[#DCDEE1] p-2 rounded-md text-[#403D39CC]"
                 >
                   <option value="">Opportunity Type</option>
                   {types.map((type) => (
@@ -221,29 +221,32 @@ const DeadlineTracker = () => {
                     </option>
                   ))}
                 </select>
+              </div>
+              <div className="w-full flex justify-center gap-[12px] mt-[12px] items-center">
                 <select
                   value={selectedDueDate}
                   onChange={(e) => setSelectedDueDate(e.target.value)}
-                  className="border focus:outline-none text-[12px] border-[#DCDEE1] p-2 rounded-md text-[#403D39CC]"
+                  className="border focus:outline-none text-[10px] border-[#DCDEE1] p-2 rounded-md text-[#403D39CC]"
                 >
                   <option value="">Due Date</option>
                   <option value="this-week">This Week</option>
                   <option value="this-month">This Month</option>
                   <option value="">All Time</option>
                 </select>
-              </div>
-              <div className="w-full flex justify-center gap-[12px] mt-[12px] items-center">
                 <select
                   value={selectedPostedDate}
                   onChange={(e) => setSelectedPostedDate(e.target.value)}
-                  className="border focus:outline-none border-[#DCDEE1] p-2 text-[12px] rounded-md text-[#403D39CC]"
+                  className="border focus:outline-none border-[#DCDEE1] p-2 text-[10px] rounded-md text-[#403D39CC]"
                 >
                   <option value="">Date Posted</option>
                   <option value="this-week">This Week</option>
                   <option value="this-month">This Month</option>
                   <option value="">All Time</option>
                 </select>
-                <button onClick={resetFilters} className="text-[#3777FF] border focus:outline-none border-[#DCDEE1] p-2 text-[12px] rounded-md bg-white hover:bg-gray-50 transition-colors duration-200">
+                
+              </div>
+              <div className="w-full mt-[12px] flex items-center justify-center">
+                <button onClick={resetFilters} className="text-[#3777FF] border focus:outline-none border-[#DCDEE1] p-2 text-[10px] rounded-md bg-white hover:bg-gray-50 transition-colors duration-200">
                   Reset Filter
                 </button>
               </div>
@@ -283,16 +286,16 @@ const DeadlineTracker = () => {
                           />
                         </div>
                         <div className="flex flex-col gap-2">
-                          <h3 className="text-xl font-semibold">{opportunity.institution}</h3>
-                          <p className="text-gray-600 capitalize">{opportunity.type}</p>
-                          <p className="text-gray-600">Position: {opportunity.position}</p>
-                          <p className="text-sm text-gray-500">
+                          <h3 className="h4 text-accent">{opportunity.institution}</h3>
+                          <p className="text-gray-600 bt2 capitalize">{opportunity.type}</p>
+                          <p className="text-gray-600 bt2 capitalize">Position: {opportunity.position}</p>
+                          <p className="bt2 text-gray-500">
                             Deadline: {format(deadlineDate, "MMM do, yyyy")}
                           </p>
                         </div>
                       </div>
                       <div className="flex lg:flex-col lg:items-end gap-2 max-lg:justify-between">
-                        <div className={`text-sm font-medium ${
+                        <div className={`bt2 ${
                           daysUntilDeadline < 0 
                             ? 'text-red-600'
                             : daysUntilDeadline <= 7
@@ -307,9 +310,9 @@ const DeadlineTracker = () => {
                         </div>
                         <Link 
                           href={`/prospecta/${opportunity._id}`}
-                          className="text-primary hover:text-primary/80 transition-colors duration-200"
+                          className="text-primary hover:text-primary bt2 transition-colors duration-200"
                         >
-                          View Details
+                          View Opportunity
                         </Link>
                       </div>
                     </div>

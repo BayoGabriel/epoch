@@ -194,7 +194,7 @@ const Hero = () => {
             <div className="lg:hidden">
                 <div className="w-full flex justify-center gap-[12px] items-center">
                     <select value={selectedCompany}
-                    onChange={(e) => setSelectedCompany(e.target.value)} className="border focus:outline-none text-[8px] border-[#DCDEE1] p-2 text-[#403D39CC]">
+                    onChange={(e) => setSelectedCompany(e.target.value)} className="border focus:outline-none text-[10px] border-[#DCDEE1] p-2 text-[#403D39CC]">
                     <option value="">Company Name</option>
                       {companies.map((company) => (
                         <option key={company} value={company}>
@@ -205,7 +205,7 @@ const Hero = () => {
                     <select
                       value={selectedType}
                       onChange={(e) => setSelectedType(e.target.value)}
-                      className="border focus:outline-none text-[8px] border-[#DCDEE1] p-2 text-[#403D39CC]">
+                      className="border focus:outline-none text-[10px] border-[#DCDEE1] p-2 text-[#403D39CC]">
                         <option value="">Opportunity Type</option>
                         {types.map((type) => (
                           <option className="capitalize" key={type} value={type}>
@@ -213,7 +213,9 @@ const Hero = () => {
                           </option>
                         ))}
                     </select>
-                    <select className="border focus:outline-none text-[8px] border-[#DCDEE1] p-2 text-[#403D39CC]"
+                </div>
+                <div className="w-full flex justify-center gap-[12px] mt-[12px] items-center">
+                    <select className="border focus:outline-none text-[10px] border-[#DCDEE1] p-2 text-[#403D39CC]"
                       value={selectedDueDate}
                       onChange={(e) => setSelectedDueDate(e.target.value)}
                     >
@@ -222,9 +224,7 @@ const Hero = () => {
                         <option value="this-month">This Month</option>
                         <option value="">All Time</option>
                     </select>
-                </div>
-                <div className="w-full flex justify-center gap-[12px] mt-[12px] items-center">
-                    <select className="border focus:outline-none border-[#DCDEE1] p-2 text-[8px] text-[#403D39CC]"
+                    <select className="border focus:outline-none border-[#DCDEE1] p-2 text-[10px] text-[#403D39CC]"
                       value={selectedPostedDate}
                       onChange={(e) => setSelectedPostedDate(e.target.value)}
                     >

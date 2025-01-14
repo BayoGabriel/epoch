@@ -123,7 +123,7 @@ const MVP = () => {
                 </div>
             </div>
             <div className="bg-[#F7F6FA] absolute top-[65%] left-[40%] p-[10px] rounded-[21px] flex items-center gap-[5px]">
-                <Image src={gboye} alt='harriet' className='size-[30px]'/>
+                <Image src={gboye} alt='harriet' className='size-[30px] rounded-full'/>
                 <div className="flex flex-col gap-1">
                     <h6 className="h4">Ayoola</h6>
                     <Link target='_blank' href="https://ng.linkedin.com/in/adegboyega-ayoola-5699aa339"><FaLinkedin className='size-[10px] text-[#0A66C2]'/></Link>
@@ -137,7 +137,7 @@ const MVP = () => {
                 </div>
             </div>
             <div className="bg-[#F7F6FA] absolute top-[78%] right-[10%] p-[10px] rounded-[21px] flex items-center gap-[5px]">
-                <Image src={sowe} alt='harriet' className='size-[30px]'/>
+                <Image src={sowe} alt='harriet' className='size-[30px] rounded-full'/>
                 <div className="flex flex-col gap-1">
                     <h6 className="h4">Malik</h6>
                     <Link target='_blank' href="https://www.linkedin.com/in/abdulmalik-amzat-a0647321b/"><FaLinkedin className='size-[10px] text-[#0A66C2]'/></Link>

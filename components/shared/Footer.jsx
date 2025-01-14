@@ -92,7 +92,7 @@ const Footer = () => {
                     <div className="flex flex-col gap-2">
                         <h6 className="text-accent font-[500] roboto text-[15px]">EXPLORE</h6>
                         <Link className='text-[#0F172A] font-[400] text-[16px]' href='/'>Home</Link>
-                        <Link className='text-[#0F172A] font-[400] text-[16px]' href='/'>Blog</Link>
+                        <Link className='text-[#0F172A] font-[400] text-[16px]' href='/blog'>Blog</Link>
                         <Link className='text-[#0F172A] font-[400] text-[16px]' href='https://open.spotify.com/show/26oCnoZaWz98tIE6u7WwiI?si=Jpk97VF4RdmWR-kPkVh8Ng'>Podcast</Link>
                         <Link className='text-[#0F172A] font-[400] text-[16px]' href='/'>Webinars</Link>
                     </div>

@@ -153,7 +153,7 @@ const Hero = () => {
   }
 
   return (
-    <div className="w-full bg-[#F5F5F5] min-h-screen pt-[95px] max-lg:pt-[62px] px-8">
+    <div className="w-full bg-[#F5F5F5] min-h-screen py-[95px] max-lg:pt-[62px] px-8">
       <div className="max-w-6xl mx-auto">
         <h1 className="h2 mb-8">
           Welcome, {session?.user?.name || session?.user?.email?.split('@')[0] || 'User'}

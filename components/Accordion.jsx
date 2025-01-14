@@ -1,8 +1,8 @@
 "use client"
 import { useState } from 'react';
-import up from '@/public/up.svg'
-import down from '@/public/down.svg'
-import Image from 'next/image';
+import { IoIosArrowUp } from "react-icons/io";
+import { IoIosArrowDown } from "react-icons/io";
+
 
 const Accordion = ({ title, content }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -12,14 +12,14 @@ const Accordion = ({ title, content }) => {
     };
 
     return (
-        <div className="accordion-item border pt-[30px] px-[30px] rounded-lg">
+        <div className="accordion-item border pt-[30px] px-[30px] max-lg:px-[10px] rounded-lg">
             <button
-                className="flex items-center justify-between  mb-[30px] w-full text-left"
+                className="flex items-center justify-between mb-[10px] lg:mb-[30px] w-full text-left"
                 onClick={toggleAccordion}
             >
                 <span className="h4">{title}</span>
                 <span className="">
-                    {isOpen ? <Image src={up} alt='icon'/> : <Image src={down} alt='icon'/>}
+                    {isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
                 </span>
             </button>
             {isOpen && (
