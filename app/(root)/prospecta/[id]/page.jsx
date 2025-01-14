@@ -137,8 +137,8 @@ const OpportunityDetails = ({ params }) => {
   return (
     <>
       {session ? (
-        <div className="w-full mt-[83px] max-lg:mt-[62px] flex items-center justify-center">
-          <div className="w-full bg-white p-[120px] shadow-lg flex items-center justify-between">
+        <div className="w-full mt-[83px] max-lg:mt-[70px] flex items-center justify-center">
+          <div className="w-full bg-white lg:p-[120px] p-2 md:p-10 shadow-lg flex items-center justify-between">
             <div className="flex flex-col gap-5">
               <Image 
                 src={opportunity.imageUrl || opp} 
@@ -149,7 +149,7 @@ const OpportunityDetails = ({ params }) => {
               />
               <h1 className="h2 text-black">{opportunity.institution}</h1>
               <h3 className="h3 capitalize text-[#403D39CC]">{opportunity.type}</h3>
-              <div className="flex gap-4 items-center">
+              <div className="flex max-md:flex-col gap-4 md:items-center">
                 <span className="text-white py-[6px] px-[15px] rounded-[8px] shadow-sm bg-accent">
                   Posted {timeAgo}
                 </span>
@@ -189,7 +189,7 @@ const OpportunityDetails = ({ params }) => {
                 <p className="text-gray-700">{opportunity.position}</p>
               </div>
               
-              <div className="mt-4">
+              <div className="py-4">
                 <Link 
                   href={opportunity.applyLink} 
                   target="_blank" 

@@ -155,32 +155,44 @@ const Weekly = () => {
                         <MdNavigateNext className='mt-1'/>
                     </Link>
                 </div>
-                <div className="grid py-6 gap-8 md:grid-cols-2 lg:grid-cols-4">
+                <div className="grid py-6 flex-grow gap-8 md:grid-cols-2 lg:grid-cols-4">
                     {weeklyPosts.map((post) => (
                         <div
                             key={post.id}
-                            className="shadow-md rounded-lg"
+                            className="flex flex-col shadow-md rounded-lg overflow-hidden h-[400px]" // Fixed height container
                         >
-                            <div className="grid grid-cols-2 gap-4">
-                                {post.images.map((image, index) => (
-                                    <div key={index} className="relative w-full h-32 rounded-lg overflow-hidden">
-                                        <Image
-                                            src={image}
-                                            alt={`${index + 1}`}
-                                            layout="fill"
-                                            objectFit="contain"
-                                        />
-                                    </div>
-                                ))}
+                            {/* Images section with fixed height */}
+                            <div className="h-64 p-4 bg-white">
+                                <div className="grid grid-cols-2 gap-4 h-full">
+                                    {post.images.map((image, index) => (
+                                        <div key={index} className="relative w-full rounded-lg overflow-hidden">
+                                            <Image
+                                                src={image}
+                                                alt={`${index + 1}`}
+                                                layout="fill"
+                                                objectFit="contain"
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                            <div className="w-full flex flex-col gap-4 p-4 bg-white hover:bg-gray-50 transition-colors cursor-pointer">
-                                <h2 className="mt-2 h4 text-gray-900 group-hover:text-primary transition-colors">
+
+                            {/* Content section with consistent padding and spacing */}
+                            <div className="flex flex-col flex-grow p-4 bg-white hover:bg-gray-50 transition-colors">
+                                <h2 className="h4 text-gray-900 group-hover:text-primary transition-colors">
                                     Opportunities for {` ${format(post.weekStart, 'MMM d, yyyy')}`}
                                 </h2>
-                                <p className="my-2 bt2 text-gray-600">
-                                We have {post.count} opportunities this week, please pay attention to the deadlines.
+                                <p className="mt-2 bt2 text-gray-600">
+                                    We have {post.count} opportunities this week, please pay attention to the deadlines.
                                 </p>
-                                <div className="w-full py-4"><Link href={`/blog/${format(post.weekStart, 'yyyy-MM-dd')}`} className='px-4 py-2 bg-white text-black border border-black  rounded text-center mt-4'>Read Now</Link></div>
+                                <div className="mt-auto py-4">
+                                    <Link 
+                                        href={`/blog/${format(post.weekStart, 'yyyy-MM-dd')}`} 
+                                        className="px-4 py-2 bg-white text-black border border-black rounded text-center"
+                                    >
+                                        Read Now
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     ))}

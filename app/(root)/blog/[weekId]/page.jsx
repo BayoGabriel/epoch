@@ -76,19 +76,19 @@ export default function BlogPost({ params }) {
   }
 
   return (
-    <article className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <article className="max-w-7xl mx-auto my-20 px-4 sm:px-6 lg:px-8 py-12">
       <Link href="/blog" className="text-primary hover:text-primary/80">
-        ← Back to all weeks
+        ← Back to blog
       </Link>
 
       <header className="mt-8 text-center">
         <time dateTime={format(post.weekStart, 'yyyy-MM-dd')} className="text-gray-500">
           Week of {format(post.weekStart, 'MMMM d')} - {format(post.weekEnd, 'MMMM d, yyyy')}
         </time>
-        <h1 className="mt-4 h1 text-gray-900">
+        <h1 className="mt-4 h2 capitalize text-gray-900">
           {post.types.join(', ')} Opportunities
         </h1>
-        <p className="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">
+        <p className="mt-4 bt2 text-gray-600 max-w-3xl mx-auto">
           {post.count} opportunities available this week
         </p>
       </header>
@@ -105,8 +105,7 @@ export default function BlogPost({ params }) {
                       <Image
                         src={opp.imageUrl || '/opp.svg'}
                         alt={opp.title || 'Opportunity'}
-                        fill
-                        className="rounded-lg object-cover"
+                        width={50} height={50} className="w-20 h-auto"
                       />
                     </div>
                     <div className="flex-grow">
