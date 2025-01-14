@@ -36,7 +36,7 @@ const Hero = () => {
       setFilteredOpportunities(data);
 
       // Extract unique companies and types for the selects
-      const uniqueCompanies = [...new Set(data.map((op) => op.title))];
+      const uniqueCompanies = [...new Set(data.map((op) => op.institution))];
       const uniqueTypes = [...new Set(data.map((op) => op.type))];
       setCompanies(uniqueCompanies);
       setTypes(uniqueTypes);
@@ -58,7 +58,7 @@ const Hero = () => {
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
       const matchesCompany =
-        selectedCompany === "" || opportunity.title === selectedCompany;
+        selectedCompany === "" || opportunity.institution === selectedCompany;
       const matchesType =
         selectedType === "" || opportunity.type === selectedType;
   

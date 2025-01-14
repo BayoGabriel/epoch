@@ -45,6 +45,7 @@ const Weekly = () => {
                 const posts = Object.values(groupedByWeek)
                     .map(({ weekStart, weekEnd, opportunities }) => {
                         const types = [...new Set(opportunities.map(opp => opp.type))];
+                        const images = opportunities.slice(0, 4).map(opp => opp.imageUrl || '/opp.svg');
                         
                         return {
                             id: format(weekStart, 'yyyy-MM-dd'),
@@ -53,9 +54,7 @@ const Weekly = () => {
                             opportunities,
                             count: opportunities.length,
                             types,
-                            previewImage: opportunities.find(opp => 
-                                opp.imageUrl && opp.imageUrl !== 'https://res.cloudinary.com/dq1uyidfy/image/upload/v1736844758/opp_yby0nw.svg'
-                            )?.imageUrl || 'https://res.cloudinary.com/dq1uyidfy/image/upload/v1736844758/opp_yby0nw.svg'
+                            images,
                         };
                     })
                     .sort((a, b) => b.weekStart.getTime() - a.weekStart.getTime())
@@ -132,20 +131,20 @@ const Weekly = () => {
                             key={post.id}
                             className="group"
                         >
-                            <div className="relative aspect-[16/9] rounded-lg overflow-hidden mb-4">
-                                <Image
-                                    src={post.previewImage}
-                                    alt={`Week of ${format(post.weekStart, 'MMM d, yyyy')}`}
-                                    width={100}
-                                    height={100}
-                                     className="w-20 h-auto"
-                                />
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                {post.images.map((image, index) => (
+                                    <div key={index} className="relative w-full h-32 rounded-lg overflow-hidden">
+                                        <Image
+                                            src={image}
+                                            alt={`Opportunity ${index + 1}`}
+                                            layout="fill"
+                                            objectFit="cover"
+                                            className="rounded-lg"
+                                        />
+                                    </div>
+                                ))}
                             </div>
-                            <time dateTime={format(post.weekStart, 'yyyy-MM-dd')} className="text-sm text-gray-500">
-                                Week of {format(post.weekStart, 'MMMM d')} - {format(post.weekEnd, 'MMMM d, yyyy')}
-                            </time>
                             <h2 className="mt-2 text-xl font-semibold text-gray-900 group-hover:text-primary transition-colors">
-                                {/* {post.types.join(', ')}  */}
                                 Opportunities for {` ${format(post.weekStart, 'MMM d, yyyy')}`}
                             </h2>
                             <p className="mt-2 text-gray-600">

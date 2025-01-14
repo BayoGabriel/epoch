@@ -47,13 +47,16 @@ const Page = () => {
           </div>
         </>
       ) : (
-        <button 
-          onClick={handleSignOut} 
-          className="primarybtn"
-          disabled={isLoading}
-        >
-          {isLoading ? 'Logging out...' : 'Logout'}
-        </button>
+        <>
+          {/* <button 
+            onClick={handleSignOut} 
+            className="primarybtn"
+            disabled={isLoading}
+          >
+            {isLoading ? 'Logging out...' : 'Logout'}
+          </button> */}
+          
+        </>
       )}
     </div>
   )

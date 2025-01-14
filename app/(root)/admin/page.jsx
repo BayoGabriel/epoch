@@ -129,7 +129,7 @@ export default function AdminDashboard() {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
           <button
-            onClick={() => router.push('/prospecta/submit')}
+            onClick={() => router.push('/prospecta')}
             className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/80 transition-colors"
           >
             Create New Opportunity

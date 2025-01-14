@@ -158,7 +158,7 @@ const Navbar = () => {
                   <button className="flex items-center justify-center size-[48px] bg-white rounded-full px-[5px] py-[3px] border-[#DCDEE1] border text-[16px]">
                     <HiOutlineBell/>
                   </button>
-                  <Link href="/profile" className="flex items-center size-[48px] bg-white rounded-full justify-center px-[5px] py-[3px] border-[#DCDEE1] border text-[16px]">
+                  <Link href="/dashboard" className="flex items-center size-[48px] bg-white rounded-full justify-center px-[5px] py-[3px] border-[#DCDEE1] border text-[16px]">
                     <GoPerson/>
                   </Link>
                   {/* <button
