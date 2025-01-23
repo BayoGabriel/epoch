@@ -64,17 +64,6 @@ const SubmitOpportunity = ({ onClose }) => {
     e.preventDefault();
     setIsSubmitting(true);
   
-    if (!session?.user) {
-      setError('You need to log in first');
-      setIsSubmitting(false);
-      return;
-    }
-
-    const userId = session.user.id;
-    
-    // Combine day, month, year into a valid date format YYYY-MM-DD
-    const applicationDeadline = `${formData.year}-${formData.month.padStart(2, '0')}-${formData.day.padStart(2, '0')}`;
-  
     try {
       // Convert image file to base64 if it exists
       let imageData = null;
@@ -84,6 +73,12 @@ const SubmitOpportunity = ({ onClose }) => {
           reader.onloadend = () => resolve(reader.result);
           reader.readAsDataURL(file);
         });
+      }
+
+      // Only include deadline if all date fields are filled
+      let deadline = null;
+      if (formData.year && formData.month && formData.day) {
+        deadline = `${formData.year}-${formData.month.padStart(2, '0')}-${formData.day.padStart(2, '0')}`;
       }
 
       const response = await fetch('/api/opportunities/submit', {
@@ -96,79 +91,28 @@ const SubmitOpportunity = ({ onClose }) => {
           title: formData.title,
           description: formData.description,
           link: formData.applyLink,
-          deadline: applicationDeadline,
+          deadline,
           position: formData.position,
-          type: formData.type, 
-          createdBy: userId,
+          type: formData.type,
+          createdBy: session?.user?.id,
           image: imageData,
         }),
       });
-  
-      const result = await response.json();
-  
-      if (!response.ok) {
-        setError(result.message || 'Error submitting opportunity');
-        setSuccess(null);
-        toast.error('Submission Failed!', {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      } else {
-        setSuccess('Opportunity submitted successfully');
-        toast.success('Submission Complete', {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        setError(null);
-        
-        // Reset form
-        setFormData({
-          title: '',
-          description: '',
-          type: 'internship',
-          institution: '',
-          day: '',
-          month: '',
-          year: '',
-          position: '',
-          applyLink: '',
-        });
-        setFile(null);
-        setFileName(deji);
-        
-        // Close modal if onClose prop exists
-        if (onClose) {
-          onClose();
-        }
-        
-        // Refresh the page to show new opportunity
+
+      if (response.ok) {
+        setSuccess('Opportunity submitted successfully!');
+        toast.success('Opportunity submitted successfully!');
         router.refresh();
+        if (onClose) onClose();
+      } else {
+        const data = await response.json();
+        setError(data.message || 'Failed to submit opportunity');
+        toast.error(data.message || 'Failed to submit opportunity');
       }
-    } catch (err) {
-      setError('Error submitting opportunity');
-      setSuccess(null);
-      toast.error('Submission Failed!', {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+    } catch (error) {
+      console.error('Error:', error);
+      setError('An error occurred while submitting the opportunity');
+      toast.error('An error occurred while submitting the opportunity');
     } finally {
       setIsSubmitting(false);
     }
@@ -194,7 +138,7 @@ const SubmitOpportunity = ({ onClose }) => {
                 value={formData.institution}
                 onChange={handleChange}
                 placeholder='Enter Company Name'
-                required
+              
                 className='w-full px-5 py-[15px] max-lg:p-3 max-lg:placeholder:text-[10px] max-lg:text-[10px] border focus:outline-none focus:ring-accent focus:border-accent placeholder:text-[#403D39CC] text-[#403D39CC] border-[#DCDEE1] rounded-[8px]'
               />
             </div>
@@ -205,7 +149,7 @@ const SubmitOpportunity = ({ onClose }) => {
                 name='title'
                 value={formData.title}
                 onChange={handleChange}
-                required
+              
                 placeholder='Enter Opportunity Title'
                 className='w-full px-5 py-[15px] max-lg:p-3 max-lg:placeholder:text-[10px] max-lg:text-[10px] border focus:outline-none focus:ring-accent focus:border-accent placeholder:text-[#403D39CC] text-[#403D39CC] border-[#DCDEE1] rounded-[8px]'
               />
@@ -219,7 +163,7 @@ const SubmitOpportunity = ({ onClose }) => {
                   placeholder='DD'
                   value={formData.day}
                   onChange={handleChange}
-                  required
+                
                   className='max-lg:w-[60px] lg:w-[103px] px-5 py-[15px] max-lg:p-3 max-lg:placeholder:text-[10px] max-lg:text-[10px] border focus:outline-none focus:ring-accent focus:border-accent placeholder:text-[#403D39CC] text-[#403D39CC] border-[#DCDEE1] rounded-[8px]'
                   min="1"
                   max="31"
@@ -230,7 +174,7 @@ const SubmitOpportunity = ({ onClose }) => {
                   placeholder='MM'
                   value={formData.month}
                   onChange={handleChange}
-                  required
+                
                   className='max-lg:w-[60px] lg:w-[103px] px-5 py-[15px] max-lg:p-3 max-lg:placeholder:text-[10px] max-lg:text-[10px] border focus:outline-none focus:ring-accent focus:border-accent placeholder:text-[#403D39CC] text-[#403D39CC] border-[#DCDEE1] rounded-[8px]'
                   min="1"
                   max="12"
@@ -241,7 +185,7 @@ const SubmitOpportunity = ({ onClose }) => {
                   placeholder='YYYY'
                   value={formData.year}
                   onChange={handleChange}
-                  required
+                
                   className='max-lg:w-[60px] lg:w-[103px] px-5 py-[15px] max-lg:p-3 max-lg:placeholder:text-[10px] max-lg:text-[10px] border focus:outline-none focus:ring-accent focus:border-accent placeholder:text-[#403D39CC] text-[#403D39CC] border-[#DCDEE1] rounded-[8px]'
                 />
               </div>
@@ -283,7 +227,7 @@ const SubmitOpportunity = ({ onClose }) => {
                 name='applyLink'
                 value={formData.applyLink}
                 onChange={handleChange}
-                required
+              
                 placeholder='Enter link to opportunity'
                 className='w-full px-5 py-[15px] max-lg:p-3 max-lg:placeholder:text-[10px] max-lg:text-[10px] border focus:outline-none focus:ring-accent focus:border-accent placeholder:text-[#403D39CC] text-[#403D39CC] border-[#DCDEE1] rounded-[8px]'
               />
@@ -294,7 +238,7 @@ const SubmitOpportunity = ({ onClose }) => {
                 name='description'
                 value={formData.description}
                 onChange={handleChange}
-                required
+              
                 placeholder='Enter a description for the opportunity'
                 className='w-full px-5 py-[15px] max-lg:p-3 max-lg:placeholder:text-[10px] max-lg:text-[10px] border focus:outline-none focus:ring-accent focus:border-accent placeholder:text-[#403D39CC] text-[#403D39CC] border-[#DCDEE1] rounded-[8px]'
               />

@@ -8,20 +8,6 @@ export async function POST(req) {
 
   const { institutionName, title, link, deadline, position, createdBy, description, type, image } = await req.json();
 
-  if (!institutionName || !title || !link || !deadline || !position || !createdBy || !description || !type) {
-    console.error('Missing required fields', {
-      institutionName,
-      title,
-      link,
-      deadline,
-      position,
-      createdBy,
-      description,
-      type
-    });
-    return new Response(JSON.stringify({ message: 'Missing required fields' }), { status: 400 });
-  }
-
   try {
     // Upload image to Cloudinary if provided
     let imageUrl = null;
@@ -31,29 +17,21 @@ export async function POST(req) {
       });
       imageUrl = result.secure_url;
     } else {
-      // If no image provided, upload the default image from public/opp.svg
-      const defaultImage = await cloudinary.uploader.upload('public/opp.svg', {
-        folder: 'opportunities',
-        public_id: 'default_opportunity',
-        overwrite: true,
-      });
-      imageUrl = defaultImage.secure_url;
+      // Use default image URL directly
+      imageUrl = 'https://res.cloudinary.com/dq1uyidfy/image/upload/v1736844758/opp_yby0nw.svg';
     }
 
-    const user = await User.findById(createdBy);
-    const defaultStatus = user && user.role === 'admin' ? 'approved' : 'pending';
-
     const opportunity = new Opportunity({
-      institution: institutionName,
-      title,
-      applyLink: link,
-      applicationDeadline: new Date(deadline),
-      position, 
-      createdBy,
-      type, 
-      description, 
-      status: defaultStatus,
-      imageUrl, // Add the imageUrl field
+      institution: institutionName || '',
+      title: title || '',
+      applyLink: link || '',
+      applicationDeadline: deadline ? new Date(deadline) : null,
+      position: position || '', 
+      createdBy: createdBy || null,
+      type: type || 'internship', 
+      description: description || '', 
+      status: 'pending',
+      imageUrl,
     });
 
     await opportunity.save();
