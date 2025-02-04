@@ -33,7 +33,7 @@ export async function POST(req) {
       createdBy: createdBy || null,
       type: type || 'internship',
       description: description || '',
-      status: user.role === 'admin' ? 'approved' : 'pending', // Set status based on user role
+      status: user.role === 'admin' ? 'approved' : 'pending', 
       imageUrl,
     });
 
