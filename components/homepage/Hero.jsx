@@ -3,16 +3,16 @@
 import Image from 'next/image';
 import heroImage from '@/public/hero.png';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from 'next/navigation';
 import { FaEye, FaEyeSlash } from 'react-icons/fa6';
-import { FcGoogle } from 'react-icons/fc';
 import logo from "@/public/epoch.svg";
 import toast from 'react-hot-toast';
 import LoadingSpinner from '@/components/shared/LoadingSpinner'; // Assuming LoadingSpinner is a separate component
 
 const Hero = () => {
+    const [mounted, setMounted] = useState(false);
     const [modal, setModal] = useState(false);
     const [showLoginForm, setShowLoginForm] = useState(true);
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -27,6 +27,14 @@ const Hero = () => {
     const [isRegistering, setIsRegistering] = useState(false);
     const router = useRouter();
     const { data: session, status } = useSession();
+
+    useEffect(() => {
+      setMounted(true);
+    }, []);
+
+    if (!mounted) {
+      return null;
+    }
 
     const handleModalClick = () => {
       setModal(!modal);

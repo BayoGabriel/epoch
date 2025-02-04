@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
-"use client";
+'use client';
 import { LiaTimesSolid } from "react-icons/lia";
 import { CiMenuFries } from "react-icons/ci";
 import logo from "@/public/epoch.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -14,20 +14,32 @@ import { useRouter } from 'next/navigation';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
 import { HiOutlineBell } from 'react-icons/hi'; 
 import { GoPerson } from 'react-icons/go'; 
+import toast from 'react-hot-toast';
 
 const Navbar = () => {
+  const pathname = usePathname();
+  const { data: session, status } = useSession();
+  const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [modal, setModal] = useState(false);
   const [showLoginForm, setShowLoginForm] = useState(true);
-  const pathName = usePathname();
-  const { data: session } = useSession();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formRegisterData, setFormRegisterData] = useState({ username: '', email: '', password: '', school: '' });
   const [error, setError] = useState(null);
+  const [error1, setError1] = useState(null);
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [formRegisterData, setFormRegisterData] = useState({ username: '', email: '', password: '', school: '' });
-  const [error1, setError1] = useState(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -51,6 +63,16 @@ const Navbar = () => {
   const closeModal = () => {
     setModal(false);
   };
+
+  const handleLogout = async () => {
+    try {
+      await signOut({ redirect: false });
+      toast.success('Logged out successfully');
+    } catch (error) {
+      toast.error('Error logging out');
+    }
+  };
+
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     
@@ -99,7 +121,7 @@ const Navbar = () => {
             <Link
               href="/"
               className={`text-nowrap text-[16px] font-[400] ${
-                pathName === "/" ? "text-accent" : "text-grey"
+                pathname === "/" ? "text-accent" : "text-grey"
               }`}
               onClick={closeMenus}
             >
@@ -108,7 +130,7 @@ const Navbar = () => {
             <Link
               href="/prospecta"
               className={`text-nowrap text-[16px] font-[400] ${
-                pathName.startsWith("/prospecta") ? "text-accent" : "text-grey"
+                pathname.startsWith("/prospecta") ? "text-accent" : "text-grey"
               }`}
               onClick={closeMenus}
             >
@@ -117,7 +139,7 @@ const Navbar = () => {
             <button
               onClick={toggleDropdown}
               className={`text-nowrap text-[16px] font-[400] ${
-                pathName === "/ambassadors" || pathName === "/fellowship"
+                pathname === "/ambassadors" || pathname === "/fellowship"
                   ? "text-accent"
                   : "text-grey"
               }`}
@@ -127,7 +149,7 @@ const Navbar = () => {
             <Link
               href="/about"
               className={`text-nowrap text-[16px] font-[400] ${
-                pathName === "/about" ? "text-accent" : "text-grey"
+                pathname === "/about" ? "text-accent" : "text-grey"
               }`}
               onClick={closeMenus}
             >
@@ -167,6 +189,12 @@ const Navbar = () => {
                   >
                     Logout
                   </button> */}
+                  <button
+                    onClick={handleLogout}
+                    className="primarybtn"
+                  >
+                    Logout
+                  </button>
                 </>
               )}
             </div>
@@ -217,7 +245,7 @@ const Navbar = () => {
                   </button>
                 </div>
               ) : (
-                <button onClick={() => signOut()} className="primarybtn">
+                <button onClick={handleLogout} className="primarybtn">
                   Logout
                 </button>
               )}
@@ -402,9 +430,9 @@ const Navbar = () => {
                         <button type="submit" className="primarybtn">
                         {isRegistering ? <span>Creating account...</span> : 'Sign Up'}
                         </button>
-                        {error && <p className="text-red-500">{error}</p>}
+                        {error1 && <p className="text-red-500">{error1}</p>}
                         <p className="text-[16px] inter font-[400]">
-                          Don't have an account?{" "}
+                          Already have an account?{" "}
                           <button
                             type="button"
                             onClick={() => setShowLoginForm(true)}
@@ -414,7 +442,6 @@ const Navbar = () => {
                           </button>
                         </p>
                       </div>
-                      {error1 && <p>{error1}</p>}
                     </form>
                   )}
                 </div>

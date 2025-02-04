@@ -12,6 +12,7 @@ import LoadingSpinner from '../shared/LoadingSpinner';
 // import ButtonSpinner from '../shared/ButtonSpinner';
 
 const SubmitOpportunity = ({ onClose }) => {
+  const [mounted, setMounted] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -116,6 +117,14 @@ const SubmitOpportunity = ({ onClose }) => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   if (isSubmitting) {
     return <LoadingSpinner />;
