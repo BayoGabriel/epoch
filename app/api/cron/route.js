@@ -6,7 +6,7 @@ export async function GET(req) {
   try {
     // Verify the request is from a cron job
     const authHeader = req.headers.get('authorization');
-    if (authHeader !== `Bearer ${process.env.CRON_SECRET_KEY}`) {
+    if (authHeader !== `Bearer hafeoprwcfuvhhjica123odugfiuflcbl`) {
       return new NextResponse(
         JSON.stringify({ message: 'Unauthorized' }),
         { status: 401 }

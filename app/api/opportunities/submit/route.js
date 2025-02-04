@@ -9,16 +9,19 @@ export async function POST(req) {
   const { institutionName, title, link, deadline, position, createdBy, description, type, image } = await req.json();
 
   try {
+    // Fetch user to check role
+    const user = await User.findById(createdBy);
+    if (!user) {
+      return new Response(JSON.stringify({ message: 'User not found' }), { status: 404 });
+    }
+
     // Upload image to Cloudinary if provided
-    let imageUrl = null;
+    let imageUrl = 'https://res.cloudinary.com/dq1uyidfy/image/upload/v1736844758/opp_yby0nw.svg';
     if (image) {
       const result = await cloudinary.uploader.upload(image, {
         folder: 'opportunities',
       });
       imageUrl = result.secure_url;
-    } else {
-      // Use default image URL directly
-      imageUrl = 'https://res.cloudinary.com/dq1uyidfy/image/upload/v1736844758/opp_yby0nw.svg';
     }
 
     const opportunity = new Opportunity({
@@ -26,11 +29,11 @@ export async function POST(req) {
       title: title || '',
       applyLink: link || '',
       applicationDeadline: deadline ? new Date(deadline) : null,
-      position: position || '', 
+      position: position || '',
       createdBy: createdBy || null,
-      type: type || 'internship', 
-      description: description || '', 
-      status: 'pending',
+      type: type || 'internship',
+      description: description || '',
+      status: user.role === 'admin' ? 'approved' : 'pending', // Set status based on user role
       imageUrl,
     });
 
