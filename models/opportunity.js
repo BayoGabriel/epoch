@@ -34,7 +34,8 @@ OpportunitySchema.statics.archiveExpired = async function() {
       applicationDeadline: { $lt: now },
       status: { $ne: 'archived' }
     },
-    { $set: { status: 'archived' } }
+    { $set: { status: 'archived' } }   
+    
   );
 };
 
