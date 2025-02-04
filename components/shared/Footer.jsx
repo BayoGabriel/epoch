@@ -5,8 +5,7 @@ import Link from 'next/link'
 import { FaInstagram, FaLinkedinIn, FaSpotify, FaTwitter, FaYoutube } from 'react-icons/fa'
 import { TfiFacebook } from "react-icons/tfi";
 import { useState } from 'react'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import toast from 'react-hot-toast'
 
 const Footer = () => {
     const [formData, setFormData] = useState({
@@ -44,39 +43,18 @@ const Footer = () => {
             const data = await response.json();
       
             if (response.ok) {
-                toast.success('You have been added to the newsletter!', {
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                });
+                toast.success('You have been added to the newsletter!');
                 setFormData({
                     name: '',
                     email: '',
                 });
             } else {
                 const errorMessage = data.message || data.error || JSON.stringify(data);
-                toast.error(`Failed to submit: ${errorMessage}`, {
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                });
+                toast.error(`Failed to submit: ${errorMessage}`);
             }
         } catch (error) {
             console.error('Error submitting form:', error);
-            toast.error(`An error occurred: ${error.message}`, {
-                position: "top-center",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-            });
+            toast.error(`An error occurred: ${error.message}`);
         } finally {
             setIsSubmitting(false);
         }
@@ -213,7 +191,6 @@ const Footer = () => {
                     <span className='text-[16px] text-center text-nowrap font-[400] text-[#0F172A]'>@ 2025 admin@epochafrica.com</span>
                 </div>
             </div>
-            <ToastContainer />
         </>
     )
 }

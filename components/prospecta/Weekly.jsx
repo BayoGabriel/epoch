@@ -5,8 +5,8 @@ import React, { useState, useEffect } from 'react';
 import { MdNavigateNext } from 'react-icons/md';
 import fete from '@/public/fete.png';
 import Image from 'next/image';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast from 'react-hot-toast';
+import LoadingSpinner from '../shared/LoadingSpinner';
 import { startOfWeek, endOfWeek, format, parseISO } from 'date-fns';
 
 const Weekly = () => {
@@ -81,7 +81,7 @@ const Weekly = () => {
     
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setIsSubmitting(true);
+        setLoading(true);
 
         try {
             const response = await fetch('https://api.sender.net/v2/subscribers', {
@@ -106,12 +106,12 @@ const Weekly = () => {
             console.error('Error:', error);
             toast.error('Failed to subscribe. Please try again.');
         } finally {
-            setIsSubmitting(false);
+            setLoading(false);
         }
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <LoadingSpinner />;
     }
 
     return (
@@ -129,8 +129,8 @@ const Weekly = () => {
                                     onChange={handleChange}
                                     required
                                 />
-                                <button type="submit" className="px-[11px] rounded-[5px] text-[10px] text-nowrap py-[8px] text-white bg-primary text-center" disabled={isSubmitting}>
-                                    {isSubmitting ? 'Subscribing...' : 'Sign up'}
+                                <button type="submit" className="px-[11px] rounded-[5px] text-[10px] text-nowrap py-[8px] text-white bg-primary text-center" disabled={loading}>
+                                    {loading ? 'Subscribing...' : 'Sign up'}
                                 </button>
                     </form>
                     <form onSubmit={handleSubmit} className='flex items-center gap-10 max-lg:hidden'>
@@ -143,8 +143,8 @@ const Weekly = () => {
                                     onChange={handleChange}
                                     required
                                 />
-                                <button type="submit" className="primarybtn text-center" disabled={isSubmitting}>
-                                    {isSubmitting ? 'Subscribing...' : 'Sign up to newsletters'}
+                                <button type="submit" className="primarybtn text-center" disabled={loading}>
+                                    {loading ? 'Subscribing...' : 'Sign up to newsletters'}
                                 </button>
                     </form>
                 </div>
@@ -197,7 +197,6 @@ const Weekly = () => {
                         </div>
                     ))}
                 </div>
-                <ToastContainer />
             </div>
         </div>
     );

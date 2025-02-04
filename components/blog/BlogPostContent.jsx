@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
 import opp from '@/public/opp.svg';
+import LoadingSpinner from '../shared/LoadingSpinner';
 
 export default function BlogPostContent({ weekId }) {
   const [post, setPost] = useState(null);
@@ -51,7 +52,9 @@ export default function BlogPostContent({ weekId }) {
   }, [weekId]);
 
   if (loading) {
-    return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
+    return <div className="flex justify-center items-center min-h-screen">
+      <LoadingSpinner/>
+    </div>;
   }
 
   if (!post || post.opportunities.length === 0) {

@@ -5,7 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { differenceInDays, format, parseISO } from 'date-fns';
 import opp from "@/public/opp.svg";
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
+import LoadingSpinner from '../shared/LoadingSpinner';
 import { IoTimeOutline } from 'react-icons/io5';
 import { BsClockHistory } from 'react-icons/bs';
 
@@ -152,6 +153,10 @@ const Hero = () => {
     );
   }
 
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <div className="w-full bg-[#F5F5F5] min-h-screen py-[95px] max-lg:pt-[62px] px-8">
       <div className="max-w-6xl mx-auto">
@@ -184,18 +189,13 @@ const Hero = () => {
           </button>
         </div>
 
-        {/* Loading State */}
-        {loading ? (
-          <div className="text-center py-10">Loading...</div>
-        ) : (
-          /* Opportunities List */
-          <div className="space-y-4">
-            {renderOpportunityList(
-              opportunities[activeTab],
-              activeTab
-            )}
-          </div>
-        )}
+        {/* Opportunities List */}
+        <div className="space-y-4">
+          {renderOpportunityList(
+            opportunities[activeTab],
+            activeTab
+          )}
+        </div>
 
         {/* Recent Activities */}
         <div className="mt-12">

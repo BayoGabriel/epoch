@@ -7,6 +7,8 @@ import Image from 'next/image';
 import { format } from 'date-fns';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import opp from '@/public/opp.svg';
+import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard';
+import LoadingSpinner from '@/components/shared/LoadingSpinner';
 
 export default function AdminDashboard() {
   const { data: session, status } = useSession();
@@ -16,6 +18,7 @@ export default function AdminDashboard() {
   const [error, setError] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [selectedType, setSelectedType] = useState('all');
+  const [activeTab, setActiveTab] = useState('opportunities');
 
   // Debug session
   useEffect(() => {
@@ -101,7 +104,9 @@ export default function AdminDashboard() {
   if (status === 'loading' || loading) {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen">
-        <div>Loading...</div>
+        <div>
+          <LoadingSpinner/>
+        </div>
         <div className="text-sm text-gray-500">Status: {status}</div>
       </div>
     );
@@ -136,106 +141,138 @@ export default function AdminDashboard() {
           </button>
         </div>
 
-        {/* Filters */}
-        <div className="flex gap-4 mb-6">
-          <select
-            value={selectedStatus}
-            onChange={(e) => setSelectedStatus(e.target.value)}
-            className="border rounded-lg px-4 py-2"
-          >
-            <option value="all">All Statuses</option>
-            <option value="pending">Pending</option>
-            <option value="approved">Approved</option>
-            <option value="rejected">Rejected</option>
-            <option value="archived">Archived</option>
-          </select>
-
-          <select
-            value={selectedType}
-            onChange={(e) => setSelectedType(e.target.value)}
-            className="border rounded-lg px-4 py-2"
-          >
-            <option value="all">All Types</option>
-            <option value="internship">Internship</option>
-            <option value="scholarship">Scholarship</option>
-            <option value="job">Job</option>
-            <option value="volunteer">Volunteer</option>
-            <option value="ambassadorship">Ambassadorship</option>
-            <option value="training">Training</option>
-          </select>
+        {/* Navigation Tabs */}
+        <div className="mb-8 border-b border-gray-200">
+          <nav className="-mb-px flex space-x-8">
+            <button
+              onClick={() => setActiveTab('opportunities')}
+              className={`${
+                activeTab === 'opportunities'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              } whitespace-nowrap pb-4 px-1 border-b-2 font-medium`}
+            >
+              Opportunities
+            </button>
+            <button
+              onClick={() => setActiveTab('analytics')}
+              className={`${
+                activeTab === 'analytics'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              } whitespace-nowrap pb-4 px-1 border-b-2 font-medium`}
+            >
+              Analytics
+            </button>
+          </nav>
         </div>
 
-        {/* Opportunities List */}
-        <div className="bg-white shadow rounded-lg">
-          <div className="grid grid-cols-[1fr,auto,auto,auto,auto] gap-4 p-4 font-medium text-gray-700 border-b">
-            <div>Opportunity</div>
-            <div>Type</div>
-            <div>Deadline</div>
-            <div>Status</div>
-            <div>Actions</div>
-          </div>
+        {activeTab === 'analytics' ? (
+          <AnalyticsDashboard />
+        ) : (
+          <>
+            {/* Filters */}
+            <div className="flex gap-4 mb-6">
+              <select
+                value={selectedStatus}
+                onChange={(e) => setSelectedStatus(e.target.value)}
+                className="border rounded-lg px-4 py-2"
+              >
+                <option value="all">All Statuses</option>
+                <option value="pending">Pending</option>
+                <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
+                <option value="archived">Archived</option>
+              </select>
 
-          {filteredOpportunities.length === 0 ? (
-            <div className="p-4 text-center text-gray-500">
-              No opportunities found
+              <select
+                value={selectedType}
+                onChange={(e) => setSelectedType(e.target.value)}
+                className="border rounded-lg px-4 py-2"
+              >
+                <option value="all">All Types</option>
+                <option value="internship">Internship</option>
+                <option value="scholarship">Scholarship</option>
+                <option value="job">Job</option>
+                <option value="volunteer">Volunteer</option>
+                <option value="ambassadorship">Ambassadorship</option>
+                <option value="training">Training</option>
+              </select>
             </div>
-          ) : (
-            filteredOpportunities.map((opp) => (
-              <div key={opp._id} className="grid grid-cols-[1fr,auto,auto,auto,auto] gap-4 p-4 items-center border-b last:border-b-0 hover:bg-gray-50">
-                <div className="flex items-center gap-4">
-                  <Image
-                    src={opp.imageUrl || opp}
-                    alt={opp.title}
-                    width={48}
-                    height={48}
-                    className="rounded-lg object-cover"
-                  />
-                  <div>
-                    <div className="font-medium">{opp.institution}</div>
-                    <div className="text-sm text-gray-500">{opp.position}</div>
-                  </div>
-                </div>
 
-                <div className="capitalize">{opp.type}</div>
-
-                <div className="whitespace-nowrap">
-                  {format(new Date(opp.applicationDeadline), "MMM d, yyyy")}
-                </div>
-
-                <select
-                  value={opp.status}
-                  onChange={(e) => handleStatusChange(opp._id, e.target.value)}
-                  className={`rounded-full px-3 py-1 text-sm ${
-                    opp.status === 'approved' ? 'bg-green-100 text-green-800' :
-                    opp.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                    opp.status === 'rejected' ? 'bg-red-100 text-red-800' :
-                    'bg-gray-100 text-gray-800'
-                  }`}
-                >
-                  <option value="pending">Pending</option>
-                  <option value="approved">Approved</option>
-                  <option value="rejected">Rejected</option>
-                  <option value="archived">Archived</option>
-                </select>
-
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => handleEditOpportunity(opp._id)}
-                    className="p-2 text-blue-600 hover:bg-blue-50 rounded-full"
-                  >
-                    <FiEdit2 className="w-5 h-5" />
-                  </button>
-                  <button
-                    onClick={() => handleDeleteOpportunity(opp._id)}
-                    className="p-2 text-red-600 hover:bg-red-50 rounded-full"
-                  >
-                    <FiTrash2 className="w-5 h-5" />
-                  </button>
-                </div>
+            {/* Opportunities List */}
+            <div className="bg-white shadow rounded-lg">
+              <div className="grid grid-cols-[1fr,auto,auto,auto,auto] gap-4 p-4 font-medium text-gray-700 border-b">
+                <div>Opportunity</div>
+                <div>Type</div>
+                <div>Deadline</div>
+                <div>Status</div>
+                <div>Actions</div>
               </div>
-            ))
-          )}
-        </div>
+
+              {filteredOpportunities.length === 0 ? (
+                <div className="p-4 text-center text-gray-500">
+                  No opportunities found
+                </div>
+              ) : (
+                filteredOpportunities.map((opp) => (
+                  <div key={opp._id} className="grid grid-cols-[1fr,auto,auto,auto,auto] gap-4 p-4 items-center border-b last:border-b-0 hover:bg-gray-50">
+                    <div className="flex items-center gap-4">
+                      <Image
+                        src={opp.imageUrl || opp}
+                        alt={opp.title}
+                        width={48}
+                        height={48}
+                        className="rounded-lg object-cover"
+                      />
+                      <div>
+                        <div className="font-medium">{opp.institution}</div>
+                        <div className="text-sm text-gray-500">{opp.position}</div>
+                      </div>
+                    </div>
+
+                    <div className="capitalize">{opp.type}</div>
+
+                    <div className="whitespace-nowrap">
+                      {format(new Date(opp.applicationDeadline), "MMM d, yyyy")}
+                    </div>
+
+                    <select
+                      value={opp.status}
+                      onChange={(e) => handleStatusChange(opp._id, e.target.value)}
+                      className={`rounded-full px-3 py-1 text-sm ${
+                        opp.status === 'approved' ? 'bg-green-100 text-green-800' :
+                        opp.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                        opp.status === 'rejected' ? 'bg-red-100 text-red-800' :
+                        'bg-gray-100 text-gray-800'
+                      }`}
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="approved">Approved</option>
+                      <option value="rejected">Rejected</option>
+                      <option value="archived">Archived</option>
+                    </select>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => handleEditOpportunity(opp._id)}
+                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-full"
+                      >
+                        <FiEdit2 className="w-5 h-5" />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteOpportunity(opp._id)}
+                        className="p-2 text-red-600 hover:bg-red-50 rounded-full"
+                      >
+                        <FiTrash2 className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

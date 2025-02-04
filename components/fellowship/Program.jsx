@@ -6,18 +6,23 @@ import ps2 from '@/public/ps2.svg'
 import Image from 'next/image'
 import Link from 'next/link'
 import { MdNavigateNext } from 'react-icons/md'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'
+import toast from 'react-hot-toast';
+import LoadingSpinner from '../shared/LoadingSpinner';
 import { useState } from 'react'
 
 const Program = () => {
     const [modal, setModal] = useState(false);
+    const [loading, setLoading] = useState(false);
       const handleModalClick = (card) => {
         setModal(!modal);
       };
       
       const [formData, setFormData] = useState({
               email: '',
+              firstName: '',
+              lastName: '',
+              school: '',
+              expectation: ''
           });
           
           const [isSubmitting, setIsSubmitting] = useState(false);
@@ -32,8 +37,9 @@ const Program = () => {
           
         const handleSubmit = async (event) => {
         event.preventDefault();
+        setLoading(true);
         setIsSubmitting(true);
-      
+
         try {
           const response = await fetch('https://api.sender.net/v2/subscribers', {
             method: 'POST',
@@ -53,48 +59,29 @@ const Program = () => {
             setTimeout(() => {
               setModal(false);
             }, 3000);
-            toast.success('You have been added to the waitlist!', {
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
+            toast.success('You have been added to the waitlist!');
             setFormData({
               email: '',
+              firstName: '',
+              lastName: '',
+              school: '',
+              expectation: ''
             });
           } else {
             const errorMessage = data.message || data.error || JSON.stringify(data);
-            toast.error(`Failed to submit: ${errorMessage}`, {
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
+            toast.error(`Failed to submit: ${errorMessage}`);
           }
         } catch (error) {
           console.error('Error submitting form:', error);
-          toast.error(`An error occurred: ${error.message}`, {
-                position: "top-center",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-              });
+          toast.error(`An error occurred: ${error.message}`);
         } finally {
+          setLoading(false);
           setIsSubmitting(false);
         }
       };
+  if (loading) {
+    return <LoadingSpinner />;
+  }
   return (
     <>
         <div id='program-structure' className='w-full flex-col flex items-center lg:gap-[48px] gap-[24px] justify-center max-lg:py-[40px] max-lg:px-4 px-[80px] py-[140px]'>
@@ -252,7 +239,6 @@ const Program = () => {
                 </div>
             </div>
             <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-            <ToastContainer />
             </>
         )}
     </>

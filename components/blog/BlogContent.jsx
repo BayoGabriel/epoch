@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
 import opp from '@/public/opp.svg';
+import LoadingSpinner from '../shared/LoadingSpinner';
 
 export default function BlogContent() {
   const [posts, setPosts] = useState([]);
@@ -57,7 +58,9 @@ export default function BlogContent() {
   }, []);
 
   if (loading) {
-    return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
+    return <div className="flex justify-center items-center min-h-screen">
+      <LoadingSpinner/>
+    </div>;
   }
 
   return (

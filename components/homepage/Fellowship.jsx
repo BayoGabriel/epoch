@@ -4,92 +4,36 @@ import { useState } from 'react'
 import fellm from '@/public/fellm.png'
 import fell from '@/public/fell.png'
 import Image from 'next/image'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast from 'react-hot-toast';
+import LoadingSpinner from '../shared/LoadingSpinner';
 
 const Fellowship = () => {
   const [modal, setModal] = useState(false);
-  // const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    school: '',
+    expectation: '',
+  });
+
   const handleModalClick = (card) => {
     setModal(!modal);
   };
-  // const [formData, setFormData] = useState({
-  //   firstName: '',
-  //   lastName: '',
-  //   email: '',
-  //   school: '',
-  //   expectation: '',
-  // });
 
-  // const [isSubmitting, setIsSubmitting] = useState(false);
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
-  // const handleChange = (event) => {
-  //   const { name, value } = event.target;
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     [name]: value,
-  //   }));
-  // };
-
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   setIsSubmitting(true);
-
-  //   try {
-  //     const response = await fetch('https://api.sender.net/v2/subscribers', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZjExMzlhMjk5NjYwZTg3NzE0NWRiMmFmYjYyNTRiZGNiYTM1NGE2NzZkOTg0ZTFmZGQxMzkzYjM4OGEyOTlmY2ZjMjg2MjUxM2QwMTAzZmYiLCJpYXQiOiIxNzMzNzU3NzE2LjgyNTU2MiIsIm5iZiI6IjE3MzM3NTc3MTYuODI1NTY0IiwiZXhwIjoiNDg4NzM1NzcxNi44MjQyNTQiLCJzdWIiOiI5Mjk3NTUiLCJzY29wZXMiOltdfQ.ql77tisZiUKjTTH6h3icEja0zu07ZA8MdsWWILpZnw_8VDNqpsoBlM0szRVWAP-zXXAUOrN-7uJCjL8IG2gIwg`,
-  //       },
-  //       body: JSON.stringify({
-  //         email: formData.email,
-  //         name: `${formData.firstName} ${formData.lastName}`,
-  //         customFields: {
-  //           school: formData.school,
-  //           expectation: formData.expectation,
-  //         },
-  //       }),
-  //     });
-
-  //     if (response.ok) {
-  //       alert('You have been added to the waitlist!');
-  //       setFormData({
-  //         firstName: '',
-  //         lastName: '',
-  //         email: '',
-  //         school: '',
-  //         expectation: '',
-  //       });
-  //     } else {
-  //       const errorData = await response.json();
-  //       alert(`Failed to submit: ${errorData.message}`);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error submitting form:', error);
-  //     alert('An error occurred. Please try again.');
-  //   } finally {
-  //     setIsSubmitting(false);
-  //   }
-  // };
-  const [formData, setFormData] = useState({
-          email: '',
-      });
-      
-      const [isSubmitting, setIsSubmitting] = useState(false);
-      
-      const handleChange = (event) => {
-          const { name, value } = event.target;
-          setFormData((prevData) => ({
-              ...prevData,
-              [name]: value,
-          }));
-      };
-      
-    const handleSubmit = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setIsSubmitting(true);
-  
+    setLoading(true);
+
     try {
       const response = await fetch('https://api.sender.net/v2/subscribers', {
         method: 'POST',
@@ -99,58 +43,44 @@ const Fellowship = () => {
         },
         body: JSON.stringify({
           email: formData.email,
-          groups: ['eVlqYB']
+          name: `${formData.firstName} ${formData.lastName}`,
+          customFields: {
+            school: formData.school,
+            expectation: formData.expectation,
+          },
         }),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
         setTimeout(() => {
           setModal(false);
         }, 3000);
-        toast.success('You have been added to the waitlist!', {
-                position: "top-center",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-              });
+        toast.success('You have been added to the waitlist!');
         setFormData({
+          firstName: '',
+          lastName: '',
           email: '',
+          school: '',
+          expectation: '',
         });
       } else {
         const errorMessage = data.message || data.error || JSON.stringify(data);
-        toast.error(`Failed to submit: ${errorMessage}`, {
-                position: "top-center",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-              });
+        toast.error(`Failed to submit: ${errorMessage}`);
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      toast.error(`An error occurred: ${error.message}`, {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+      toast.error(`An error occurred: ${error.message}`);
     } finally {
-      setIsSubmitting(false);
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <>
       <div className='w-full flex justify-between'>
@@ -258,8 +188,8 @@ const Fellowship = () => {
                     </div>
                   </div>
                   <div className="w-full flex flex-col gap-4 items-center justify-center">
-                    <button type="submit" className="primarybtn" disabled={isSubmitting}>
-                      {isSubmitting ? 'Submitting...' : 'Join Waitlist'}
+                    <button type="submit" className="primarybtn" disabled={loading}>
+                      {loading ? 'Submitting...' : 'Join Waitlist'}
                     </button>
                   </div>
                 </form>
@@ -268,7 +198,6 @@ const Fellowship = () => {
             </div>
           </div>
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-          <ToastContainer />
         </>
       )}
     </>

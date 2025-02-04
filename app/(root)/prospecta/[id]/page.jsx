@@ -11,7 +11,8 @@ import {
   parseISO 
 } from "date-fns";
 import opp from "@/public/opp.svg";
-import { toast } from "react-toastify"; // Assuming you're using react-toastify for notifications
+import toast from 'react-hot-toast'; 
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 const OpportunityDetails = ({ params }) => {
   const { id } = params;
@@ -97,7 +98,9 @@ const OpportunityDetails = ({ params }) => {
 
   // Time calculation logic (same as before)
   if (loading) {
-    return <div className="w-full h-screen flex items-center justify-center">Loading...</div>;
+    return <div className="w-full h-screen flex items-center justify-center">
+      <LoadingSpinner/>
+    </div>;
   }
 
   if (!opportunity) {

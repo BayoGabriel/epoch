@@ -7,8 +7,9 @@ import Image from 'next/image';
 import opp from "@/public/opp.svg";
 import { format } from 'date-fns';
 import upload from '@/public/upload.svg'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import toast, { Toaster } from 'react-hot-toast';
+import LoadingSpinner from '../shared/LoadingSpinner';
+// import ButtonSpinner from '../shared/ButtonSpinner';
 
 const SubmitOpportunity = ({ onClose }) => {
   const [formData, setFormData] = useState({
@@ -28,7 +29,7 @@ const SubmitOpportunity = ({ onClose }) => {
   const [success, setSuccess] = useState(null);
   const router = useRouter();
   const [opportunities, setOpportunities] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error1, setError1] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const deji = () => {
@@ -62,8 +63,10 @@ const SubmitOpportunity = ({ onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-  
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
     try {
       // Convert image file to base64 if it exists
       let imageData = null;
@@ -102,21 +105,21 @@ const SubmitOpportunity = ({ onClose }) => {
       if (response.ok) {
         setSuccess('Opportunity submitted successfully!');
         toast.success('Opportunity submitted successfully!');
-        router.refresh();
-        if (onClose) onClose();
       } else {
         const data = await response.json();
-        setError(data.message || 'Failed to submit opportunity');
-        toast.error(data.message || 'Failed to submit opportunity');
+        throw new Error(data.message || 'Failed to submit opportunity');
       }
-    } catch (error) {
-      console.error('Error:', error);
-      setError('An error occurred while submitting the opportunity');
-      toast.error('An error occurred while submitting the opportunity');
+    } catch (err) {
+      setError(err.message);
+      toast.error(err.message);
     } finally {
-      setIsSubmitting(false);
+      setLoading(false);
     }
   };
+
+  if (isSubmitting) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <>
@@ -251,14 +254,18 @@ const SubmitOpportunity = ({ onClose }) => {
               </label>
             </div>
             <div className="flex items-center justify-center w-full">
-            <button type='submit' className='primarybtn text-white'>
-              {isSubmitting ? "Submitting..." : "Submit"}
+            <button 
+              type="submit" 
+              className={`primarybtn text-white ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              disabled={loading}
+            >
+              {loading ? <span>Submitting</span> : 'Submit'}
             </button>
             </div>
-            <ToastContainer />
             {error && <p className='text-red-500 mt-4'>{error}</p>}
             {success && <p className='text-green-500 mt-4'>{success}</p>}
           </form>
+          <Toaster />
         </div>
       </div>
 

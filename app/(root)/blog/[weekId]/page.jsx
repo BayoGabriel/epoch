@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { format, parseISO, startOfWeek, endOfWeek } from 'date-fns';
+import LoadingSpinner from '@/components/shared/LoadingSpinner';
 
 export default function BlogPost({ params }) {
   const [post, setPost] = useState(null);
@@ -59,7 +60,9 @@ export default function BlogPost({ params }) {
   }, [weekId]);
 
   if (loading) {
-    return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
+    return <div className="flex justify-center items-center min-h-screen">
+      <LoadingSpinner/>
+    </div>;
   }
 
   if (!post || post.opportunities.length === 0) {

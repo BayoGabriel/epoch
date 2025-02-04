@@ -8,6 +8,7 @@ import opp from "@/public/opp.svg";
 import { IoChevronDownOutline } from "react-icons/io5";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import LoadingSpinner from "../shared/LoadingSpinner";
 
 const DeadlineTracker = () => {
   const { data: session } = useSession();
@@ -256,7 +257,9 @@ const DeadlineTracker = () => {
           {/* Opportunities List */}
           <div className="mt-8">
             {loading ? (
-              <div className="text-center py-10">Loading...</div>
+              <div className="text-center py-10">
+                <LoadingSpinner/>
+              </div>
             ) : error ? (
               <div className="text-center py-10 text-red-500">{error}</div>
             ) : filteredOpportunities.length === 0 ? (

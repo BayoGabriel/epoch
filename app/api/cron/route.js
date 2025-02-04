@@ -1,32 +1,37 @@
 import { NextResponse } from 'next/server';
 import connectMongo from '@/utils/mongodb';
-import Opportunity from '@/models/opportunity';
+import Opportunity from '@/models/Opportunity';
 
-export async function GET(req) {
+export async function GET() {
   try {
-    // Verify the request is from a cron job
-    const authHeader = req.headers.get('authorization');
-    if (authHeader !== `Bearer hafeoprwcfuvhhjica123odugfiuflcbl`) {
-      return new NextResponse(
-        JSON.stringify({ message: 'Unauthorized' }),
-        { status: 401 }
+    await connectMongo();
+
+    // Get current date without time
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Find all opportunities that have passed their deadline
+    const expiredOpportunities = await Opportunity.find({
+      deadline: { $lt: today },
+      status: { $ne: 'archived' } // Only get non-archived opportunities
+    });
+
+    // Update all expired opportunities to archived status
+    if (expiredOpportunities.length > 0) {
+      await Opportunity.updateMany(
+        { _id: { $in: expiredOpportunities.map(opp => opp._id) } },
+        { $set: { status: 'archived' } }
       );
     }
 
-    await connectMongo();
-    const result = await Opportunity.archiveExpired();
-
-    return new NextResponse(
-      JSON.stringify({ 
-        message: 'Successfully archived expired opportunities',
-        updated: result.modifiedCount 
-      }),
-      { status: 200 }
-    );
+    return NextResponse.json({
+      message: `Successfully archived ${expiredOpportunities.length} expired opportunities`,
+      archivedCount: expiredOpportunities.length
+    });
   } catch (error) {
-    console.error('Error archiving opportunities:', error);
-    return new NextResponse(
-      JSON.stringify({ message: 'Error archiving opportunities' }),
+    console.error('Cron job error:', error);
+    return NextResponse.json(
+      { error: 'Failed to archive opportunities' },
       { status: 500 }
     );
   }

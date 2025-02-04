@@ -310,7 +310,7 @@ const Navbar = () => {
                       </div>
                       <div className="w-full flex flex-col gap-4 items-center justify-center">
                         <button type="submit" className="primarybtn">
-                          Sign In
+                        {isLoggingIn ? <span>Signing in...</span> : 'Sign In'}
                         </button>
                         {error && <p className="text-red-500">{error}</p>}
                         <p className="text-[16px] inter font-[400]">
@@ -400,7 +400,7 @@ const Navbar = () => {
                       </div>
                       <div className="w-full flex flex-col gap-4 items-center justify-center">
                         <button type="submit" className="primarybtn">
-                          Sign Up
+                        {isRegistering ? <span>Creating account...</span> : 'Sign Up'}
                         </button>
                         {error && <p className="text-red-500">{error}</p>}
                         <p className="text-[16px] inter font-[400]">
