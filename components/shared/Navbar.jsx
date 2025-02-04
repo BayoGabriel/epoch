@@ -189,12 +189,12 @@ const Navbar = () => {
                   >
                     Logout
                   </button> */}
-                  <button
+                  {/* <button
                     onClick={handleLogout}
                     className="primarybtn"
                   >
                     Logout
-                  </button>
+                  </button> */}
                 </>
               )}
             </div>
