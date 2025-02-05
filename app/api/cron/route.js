@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import connectMongo from '@/utils/mongodb';
-import Opportunity from '@/models/Opportunity';
+import Opportunity from '@/models/opportunity';
 
 export async function GET() {
   try {
