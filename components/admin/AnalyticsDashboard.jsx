@@ -70,17 +70,20 @@ export default function AnalyticsDashboard() {
           <p className="text-3xl font-bold text-blue-600">{analytics.totalVisits}</p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold text-gray-700">Last Week Visits</h3>
-          <p className="text-3xl font-bold text-green-600">{analytics.lastWeekVisits}</p>
+          <h3 className="text-lg font-semibold text-gray-700">Active Users</h3>
+          <p className="text-3xl font-bold text-green-600">{analytics.activeUsers.total}</p>
+          <p className="text-sm text-gray-500">
+            {analytics.activeUsers.returning} returning users
+          </p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold text-gray-700">Avg Session Duration</h3>
           <p className="text-3xl font-bold text-purple-600">{formatDuration(analytics.avgSessionDuration)}</p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold text-gray-700">Total Page Views</h3>
+          <h3 className="text-lg font-semibold text-gray-700">Total Interactions</h3>
           <p className="text-3xl font-bold text-orange-600">
-            {analytics.pageViews.reduce((sum, item) => sum + item.count, 0)}
+            {analytics.opportunityInteractions.reduce((sum, item) => sum + item.count, 0)}
           </p>
         </div>
       </div>
@@ -89,7 +92,7 @@ export default function AnalyticsDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Page Views Chart */}
         <div className="bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">Page Views Distribution</h3>
+          <h3 className="text-lg font-semibold text-gray-700 mb-4">Top Pages</h3>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={analytics.pageViews}>
@@ -98,20 +101,20 @@ export default function AnalyticsDashboard() {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="count" fill="#8884d8" />
+                <Bar dataKey="count" fill="#8884d8" name="Views" />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        {/* Click Events Chart */}
+        {/* Opportunity Interactions Chart */}
         <div className="bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">Click Events by Element</h3>
+          <h3 className="text-lg font-semibold text-gray-700 mb-4">Opportunity Interactions</h3>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={analytics.clickEvents}
+                  data={analytics.opportunityInteractions}
                   dataKey="count"
                   nameKey="_id"
                   cx="50%"
@@ -120,7 +123,7 @@ export default function AnalyticsDashboard() {
                   fill="#8884d8"
                   label
                 >
-                  {analytics.clickEvents.map((entry, index) => (
+                  {analytics.opportunityInteractions.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
@@ -131,18 +134,41 @@ export default function AnalyticsDashboard() {
           </div>
         </div>
 
-        {/* User Locations Chart */}
+        {/* User Engagement Chart */}
         <div className="bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">User Locations</h3>
+          <h3 className="text-lg font-semibold text-gray-700 mb-4">Session Duration Distribution</h3>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={analytics.userLocations}>
+              <BarChart data={analytics.userEngagement.map(bucket => ({
+                range: bucket._id === "other" ? ">30m" :
+                  `${formatDuration(bucket.boundaries[0])} - ${formatDuration(bucket.boundaries[1])}`,
+                sessions: bucket.count,
+                avgDuration: bucket.avg_duration
+              }))}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="range" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="sessions" fill="#00C49F" name="Number of Sessions" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Top Opportunities Chart */}
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h3 className="text-lg font-semibold text-gray-700 mb-4">Top Opportunities</h3>
+          <div className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={analytics.topOpportunities}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="_id" />
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="count" fill="#00C49F" />
+                <Bar dataKey="views" fill="#8884d8" name="Views" />
+                <Bar dataKey="interactions" fill="#82ca9d" name="Interactions" />
               </BarChart>
             </ResponsiveContainer>
           </div>

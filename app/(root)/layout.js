@@ -10,13 +10,13 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="">
         <AnalyticsTracker/>
-        <SessionProvider>
+        {/* <SessionProvider> */}
           <div className="">
             <Navbar/>
             {children}
             <Footer/>
           </div>
-        </SessionProvider>
+        {/* </SessionProvider> */}
       </body>
     </html>
   );
