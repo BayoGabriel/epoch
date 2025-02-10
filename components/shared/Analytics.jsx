@@ -17,9 +17,10 @@ export default function AnalyticsTracker() {
     const trackSessionStart = async () => {
       try {
         const response = await fetch('/api/analytics/ip');
+        if (!response.ok) throw new Error('Failed to fetch IP');
         const { ip } = await response.json();
 
-        await fetch('/api/analytics/track', {
+        const trackResponse = await fetch('/api/analytics/track', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -31,6 +32,10 @@ export default function AnalyticsTracker() {
             timestamp: sessionStartTime.toISOString(),
           }),
         });
+        
+        if (!trackResponse.ok) {
+          throw new Error('Failed to track session start');
+        }
       } catch (error) {
         console.error('Analytics error:', error);
       }
@@ -41,14 +46,15 @@ export default function AnalyticsTracker() {
     }
   }, [mounted, sessionId, session?.user?.id, pathname, sessionStartTime]);
 
-  // Track page views and session end
+  // Track page views
   useEffect(() => {
     const trackPageView = async () => {
       try {
         const response = await fetch('/api/analytics/ip');
+        if (!response.ok) throw new Error('Failed to fetch IP');
         const { ip } = await response.json();
 
-        await fetch('/api/analytics/track', {
+        const trackResponse = await fetch('/api/analytics/track', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -64,6 +70,10 @@ export default function AnalyticsTracker() {
           }),
         });
 
+        if (!trackResponse.ok) {
+          throw new Error('Failed to track page view');
+        }
+
         // Store current page as previous page
         window.sessionStorage.setItem('previousPage', pathname);
       } catch (error) {
@@ -71,12 +81,21 @@ export default function AnalyticsTracker() {
       }
     };
 
+    if (mounted) {
+      trackPageView();
+    }
+  }, [mounted, pathname, sessionId, session?.user?.id]);
+
+  // Track session end
+  useEffect(() => {
     const trackSessionEnd = async () => {
       try {
         const response = await fetch('/api/analytics/ip');
+        if (!response.ok) throw new Error('Failed to fetch IP');
         const { ip } = await response.json();
-        const sessionDuration = new Date() - sessionStartTime;
 
+        const sessionDuration = new Date() - sessionStartTime;
+        
         await fetch('/api/analytics/track', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -86,10 +105,10 @@ export default function AnalyticsTracker() {
             userId: session?.user?.id,
             path: pathname,
             ip,
-            timestamp: new Date().toISOString(),
             metadata: {
               sessionDuration,
             },
+            timestamp: new Date().toISOString(),
           }),
         });
       } catch (error) {
@@ -97,19 +116,18 @@ export default function AnalyticsTracker() {
       }
     };
 
-    if (mounted) {
-      trackPageView();
-      
-      // Track session end when component unmounts
-      return () => {
+    // Track session end when component unmounts
+    return () => {
+      if (mounted) {
         trackSessionEnd();
-        setMounted(false);
-      };
-    }
-  }, [pathname, mounted, sessionId, session?.user?.id, sessionStartTime]);
+      }
+    };
+  }, [mounted, sessionId, session?.user?.id, pathname, sessionStartTime]);
 
+  // Set mounted state
   useEffect(() => {
     setMounted(true);
+    return () => setMounted(false);
   }, []);
 
   // Track opportunity interactions
@@ -119,6 +137,7 @@ export default function AnalyticsTracker() {
 
       try {
         const response = await fetch('/api/analytics/ip');
+        if (!response.ok) throw new Error('Failed to fetch IP');
         const { ip } = await response.json();
         const opportunityId = event.target.getAttribute('data-opportunity-id');
         const interactionType = event.target.getAttribute('data-interaction-type');
