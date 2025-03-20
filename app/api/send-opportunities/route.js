@@ -24,7 +24,7 @@ async function fetchSubscribersFromGroup() {
       "https://api.sender.net/v2/groups/e5VkK8/subscribers",
       {
         headers: {
-          Authorization: `Bearer ${process.env.SENDER_API_KEY}`,
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_SENDER_API_KEY}`,
           "Content-Type": "application/json",
         },
       }
