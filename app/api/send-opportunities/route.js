@@ -7,7 +7,7 @@ import Opportunity from "@/models/opportunity";
 import axios from "axios";
 
 const transporter = nodemailer.createTransport({
-  service: "Gmail",
+  service: "Zoho",
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
