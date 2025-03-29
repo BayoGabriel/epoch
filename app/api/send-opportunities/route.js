@@ -53,18 +53,37 @@ export async function GET() {
     if (subscribers.length === 0)
       return NextResponse.json({ message: "No subscribers found in the group." });
 
+    // Render email content once since it's the same for all subscribers
     const emailHtml = await render(<OpportunitiesEmail opportunities={opportunities} />);
 
+    // Track successful and failed emails
+    let successCount = 0;
+    let failedEmails = [];
 
-    // Send email using Zoho Mail
-    await transporter.sendMail({
-      from: `"Epoch Africa" <${process.env.ZOHO_USER}>`,
-      to: subscribers.join(","),
-      subject: "OPPORTUNITIES FOR THE WEEK",
-      html: emailHtml,
+    // Send emails individually to each subscriber
+    for (const email of subscribers) {
+      try {
+        await transporter.sendMail({
+          from: `"Epoch Africa" <${process.env.ZOHO_USER}>`,
+          to: email,
+          subject: "OPPORTUNITIES FOR THE WEEK",
+          html: emailHtml,
+        });
+        successCount++;
+        
+        // Add a small delay to avoid overwhelming the email server
+        await new Promise(resolve => setTimeout(resolve, 200));
+      } catch (error) {
+        console.error(`Error sending email to ${email}:`, error);
+        failedEmails.push(email);
+      }
+    }
+
+    return NextResponse.json({ 
+      message: `Successfully sent emails to ${successCount} out of ${subscribers.length} subscribers.`,
+      failedCount: failedEmails.length,
+      failedEmails: failedEmails.length > 0 ? failedEmails : undefined
     });
-
-    return NextResponse.json({ message: `Emails sent to ${subscribers.length} subscribers.` });
   } catch (error) {
     console.error("Error sending weekly opportunities:", error);
     return NextResponse.json({ error: "Failed to send emails" }, { status: 500 });

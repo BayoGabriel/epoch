@@ -1,14 +1,26 @@
 import { Html, Head, Body, Container, Img, Section, Column, Row, Text, Link } from "@react-email/components";
 
 export default function OpportunitiesEmail({ opportunities }) {
-  // Function to format deadline date
+  // Function to format deadline date with error handling
   const formatDeadline = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    });
+    try {
+      const date = new Date(dateString);
+      
+      // Check if date is valid
+      if (isNaN(date.getTime())) {
+        return "No deadline specified";
+      }
+      
+      // Format as DD/MM/YYYY
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const year = date.getFullYear();
+      
+      return `${day}/${month}/${year}`;
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return "No deadline specified";
+    }
   };
 
   // Split opportunities into pairs for two-column layout
@@ -44,23 +56,22 @@ export default function OpportunitiesEmail({ opportunities }) {
         </style>
       </Head>
       <Body style={{ backgroundColor: "#ffffff", fontFamily: "Arial, sans-serif", padding: "0", margin: "0" }}>
-        <Container className="container" style={{ maxWidth: "95%", margin: "auto", padding: "20px", backgroundColor: "#ffffff", textAlign: "center" }}>
+        <Container className="container" style={{ maxWidth: "95%", margin: "auto", padding: "20px", backgroundColor: "#ffffff" }}>
           {/* Centered Logo */}
-          <Section style={{ textAlign: "center", marginBottom: "20px" }}>
+          <Section style={{ textAlign: "center", marginBottom: "20px", margin: "0 auto" }}>
             <div style={{ 
-              backgroundColor: "#000", 
-              width: "fit", 
-              height: "fit", 
+              backgroundColor: "#000000", 
               borderRadius: "50%", 
-              display: "flex", 
-              alignItems: "center", 
-              justifyContent: "center",
+              padding: "20px", 
+              maxWidth: "190px", 
+              margin: "0 auto" 
             }}>
               <Img
                 src="https://res.cloudinary.com/dq1uyidfy/image/upload/v1718014699/efjqboki2b51w3dwonmc.png"
                 alt="Epoch Logo"
-                width="fit"
-                height="fit"
+                width="150"
+                height="auto"
+                style={{ margin: "0 auto", display: "block" }}
               />
             </div>
           </Section>
@@ -97,10 +108,10 @@ export default function OpportunitiesEmail({ opportunities }) {
                         {opportunity.description.length > 50 ? "..." : ""}
                       </Text>
                       <Text style={{ fontSize: "14px", color: "#737373", marginTop: "10px" }}>
-                        Deadline: {formatDeadline(opportunity.deadline)}
+                        Deadline: {formatDeadline(opportunity.applicationDeadline || opportunity.deadline)}
                       </Text>
                       <div style={{ textAlign: "center", marginTop: "10px" }}>
-                        <Link href={opportunity.applyLink} style={{ 
+                        <Link href={opportunity.applyLink || opportunity.link || "#"} style={{ 
                           fontSize: "14px", 
                           color: "#ffffff", 
                           backgroundColor: "#e9672b", 
@@ -145,7 +156,7 @@ export default function OpportunitiesEmail({ opportunities }) {
           <div style={{ textAlign: "center", margin: "30px 0 10px" }}>
             <hr style={{ width: "50%", borderColor: "#e9672b", borderWidth: "1px" }} />
           </div>
-          <Text style={{ fontSize: "16px", color: "#000", marginBottom: "30px" }}>
+          <Text style={{ fontSize: "16px", color: "#000", marginBottom: "30px", textAlign: "center" }}>
             @2025 admin@epochafrica.com
           </Text>
           {/* Footer */}
