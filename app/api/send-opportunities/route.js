@@ -18,6 +18,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // Fetch subscribers from the specific Sender.net group
+//prospecta = erXrJB
 async function fetchSubscribersFromGroup() {
   try {
     const response = await axios.get(
