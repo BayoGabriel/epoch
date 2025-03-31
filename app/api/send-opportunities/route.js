@@ -18,11 +18,11 @@ const transporter = nodemailer.createTransport({
 });
 
 // Fetch subscribers from the specific Sender.net group
-//prospecta = erXrJB
+//prospecta = erXrJB dev: e5VkK8
 async function fetchSubscribersFromGroup() {
   try {
     const response = await axios.get(
-      "https://api.sender.net/v2/groups/e5VkK8/subscribers",
+      "https://api.sender.net/v2/groups/erXrJB/subscribers",
       {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_SENDER_API_KEY}`,

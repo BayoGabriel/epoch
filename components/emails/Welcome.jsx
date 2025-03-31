@@ -1,7 +1,7 @@
 import { Html, Head, Body, Container, Img, Section, Column, Row, Text, Link } from "@react-email/components";
 
 export default function OpportunitiesEmail({ opportunities }) {
-  // Function to format deadline date with error handling
+  
   const formatDeadline = (dateString) => {
     try {
       const date = new Date(dateString);
@@ -11,7 +11,6 @@ export default function OpportunitiesEmail({ opportunities }) {
         return "No deadline specified";
       }
       
-      // Format as DD/MM/YYYY
       const day = date.getDate().toString().padStart(2, '0');
       const month = (date.getMonth() + 1).toString().padStart(2, '0');
       const year = date.getFullYear();
