@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import connectMongo from '@/utils/mongodb';
 import UserOpportunityInteraction from '@/models/UserOpportunityInteraction';
 

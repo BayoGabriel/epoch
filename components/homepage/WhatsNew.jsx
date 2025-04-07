@@ -102,10 +102,10 @@ const WhatsNew = () => {
             </div>
           </div> */}
           <div className='overflow-hidden'>
-          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/68OBY2Z47yWfyT6IZDtebl?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+          <iframe className='w-full' src="https://open.spotify.com/embed/episode/68OBY2Z47yWfyT6IZDtebl?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
           </div>
           <div className="overflow-hidden">
-          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/6ldlvtp5RUGLdHqnPepSym?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+          <iframe className='w-full' src="https://open.spotify.com/embed/episode/6ldlvtp5RUGLdHqnPepSym?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
           </div>
           <div className="overflow-hidden">
           <iframe className='w-full' src="https://open.spotify.com/embed/episode/3NKyhhXhrTaShDBLztfWXC?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>

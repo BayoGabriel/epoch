@@ -18,7 +18,7 @@ export default function AnalyticsDashboard() {
   return (
     <div className="my-40">
       <h2>Analytics Data</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="text-red-600">{error}</p>}
       <ul>
         {data.map((item, index) => (
           <li key={index}>{item.url} - {item.event}</li>

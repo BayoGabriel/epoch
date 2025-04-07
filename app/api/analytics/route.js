@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { NextResponse } from "next/server";
 import connectMongo from "@/utils/mongodb";
 import Analytics from "@/models/analytics";
