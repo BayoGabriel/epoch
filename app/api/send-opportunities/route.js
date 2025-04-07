@@ -157,6 +157,9 @@ import connectMongo from "@/utils/mongodb";
 import Opportunity from "@/models/opportunity";
 import axios from "axios";
 
+// Use the correct runtime declaration syntax for Next.js App Router
+export const runtime = "edge";
+
 // Configure Nodemailer with Zoho Mail
 const transporter = nodemailer.createTransport({
   host: "smtp.zoho.com",
@@ -254,11 +257,6 @@ async function sendEmailInBatches(subscribers, emailHtml) {
 
   return results;
 }
-
-// Add protection against Vercel's automatic function invocation during builds
-export const config = {
-  runtime: 'edge', // Use edge runtime to skip prerendering
-};
 
 export async function GET(req) {
   // Check for special header or query param that distinguishes real requests from build-time invocations
