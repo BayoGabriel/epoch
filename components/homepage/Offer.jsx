@@ -16,7 +16,7 @@ const accordionData = [
     title: 'Prospecta by Epoch',
     description:
       'Get a curated list of the best opportunities every day and every week in your inbox —internships, scholarships, workshops, and more, all tailored to Nigerian undergraduates.',
-    url: '/prospecta#newsletter',
+    url: '/newsletter',
     cta: 'Subscribe to Prospecta'
   },
   {
