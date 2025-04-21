@@ -9,7 +9,11 @@ import { format } from 'date-fns';
 import upload from '@/public/upload.svg'
 import toast, { Toaster } from 'react-hot-toast';
 import LoadingSpinner from '../shared/LoadingSpinner';
-// import ButtonSpinner from '../shared/ButtonSpinner';
+import dynamic from 'next/dynamic';
+
+// Import the rich text editor dynamically with SSR disabled
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 
 const SubmitOpportunity = ({ onClose }) => {
   const [mounted, setMounted] = useState(false);
@@ -60,6 +64,11 @@ const SubmitOpportunity = ({ onClose }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  // Handle rich text editor changes separately
+  const handleDescriptionChange = (content) => {
+    setFormData((prevData) => ({ ...prevData, description: content }));
   };
 
   const handleSubmit = async (e) => {
@@ -130,6 +139,24 @@ const SubmitOpportunity = ({ onClose }) => {
     return <LoadingSpinner />;
   }
 
+  // Custom Quill modules and formats
+  const modules = {
+    toolbar: [
+      [{ 'header': [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      ['link'],
+      ['clean']
+    ],
+  };
+  
+  const formats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike',
+    'list', 'bullet',
+    'link'
+  ];
+
   return (
     <>
       <div className='my-10 flex items-center justify-center max-lg:px-6'>
@@ -150,7 +177,6 @@ const SubmitOpportunity = ({ onClose }) => {
                 value={formData.institution}
                 onChange={handleChange}
                 placeholder='Enter Company Name'
-              
                 className='w-full px-5 py-[15px] max-lg:p-3 max-lg:placeholder:text-[10px] max-lg:text-[10px] border focus:outline-none focus:ring-accent focus:border-accent placeholder:text-[#403D39CC] text-[#403D39CC] border-[#DCDEE1] rounded-[8px]'
               />
             </div>
@@ -161,7 +187,6 @@ const SubmitOpportunity = ({ onClose }) => {
                 name='title'
                 value={formData.title}
                 onChange={handleChange}
-              
                 placeholder='Enter Opportunity Title'
                 className='w-full px-5 py-[15px] max-lg:p-3 max-lg:placeholder:text-[10px] max-lg:text-[10px] border focus:outline-none focus:ring-accent focus:border-accent placeholder:text-[#403D39CC] text-[#403D39CC] border-[#DCDEE1] rounded-[8px]'
               />
@@ -175,7 +200,6 @@ const SubmitOpportunity = ({ onClose }) => {
                   placeholder='DD'
                   value={formData.day}
                   onChange={handleChange}
-                
                   className='max-lg:w-[60px] lg:w-[103px] px-5 py-[15px] max-lg:p-3 max-lg:placeholder:text-[10px] max-lg:text-[10px] border focus:outline-none focus:ring-accent focus:border-accent placeholder:text-[#403D39CC] text-[#403D39CC] border-[#DCDEE1] rounded-[8px]'
                   min="1"
                   max="31"
@@ -186,7 +210,6 @@ const SubmitOpportunity = ({ onClose }) => {
                   placeholder='MM'
                   value={formData.month}
                   onChange={handleChange}
-                
                   className='max-lg:w-[60px] lg:w-[103px] px-5 py-[15px] max-lg:p-3 max-lg:placeholder:text-[10px] max-lg:text-[10px] border focus:outline-none focus:ring-accent focus:border-accent placeholder:text-[#403D39CC] text-[#403D39CC] border-[#DCDEE1] rounded-[8px]'
                   min="1"
                   max="12"
@@ -197,7 +220,6 @@ const SubmitOpportunity = ({ onClose }) => {
                   placeholder='YYYY'
                   value={formData.year}
                   onChange={handleChange}
-                
                   className='max-lg:w-[60px] lg:w-[103px] px-5 py-[15px] max-lg:p-3 max-lg:placeholder:text-[10px] max-lg:text-[10px] border focus:outline-none focus:ring-accent focus:border-accent placeholder:text-[#403D39CC] text-[#403D39CC] border-[#DCDEE1] rounded-[8px]'
                 />
               </div>
@@ -239,21 +261,26 @@ const SubmitOpportunity = ({ onClose }) => {
                 name='applyLink'
                 value={formData.applyLink}
                 onChange={handleChange}
-              
                 placeholder='Enter link to opportunity'
                 className='w-full px-5 py-[15px] max-lg:p-3 max-lg:placeholder:text-[10px] max-lg:text-[10px] border focus:outline-none focus:ring-accent focus:border-accent placeholder:text-[#403D39CC] text-[#403D39CC] border-[#DCDEE1] rounded-[8px]'
               />
             </div>
             <div className=''>
               <label className='block mb-1 h4'>Description</label>
-              <textarea
-                name='description'
-                value={formData.description}
-                onChange={handleChange}
-              
-                placeholder='Enter a description for the opportunity'
-                className='w-full px-5 py-[15px] max-lg:p-3 max-lg:placeholder:text-[10px] max-lg:text-[10px] border focus:outline-none focus:ring-accent focus:border-accent placeholder:text-[#403D39CC] text-[#403D39CC] border-[#DCDEE1] rounded-[8px]'
-              />
+              {mounted && (
+                <ReactQuill
+                  value={formData.description}
+                  onChange={handleDescriptionChange}
+                  modules={modules}
+                  formats={formats}
+                  placeholder='Enter a description for the opportunity'
+                  className='rounded-[8px] border border-[#DCDEE1]'
+                  theme="snow"
+                />
+              )}
+              <p className="text-xs text-gray-500 mt-2">
+                You can format text using the toolbar above. Add paragraphs, bullet points, emphasis, and more.
+              </p>
             </div>
             <div className=''>
               <label className='block mb-1 h4'>Upload an Image(If applicable)</label>
@@ -263,13 +290,13 @@ const SubmitOpportunity = ({ onClose }) => {
               </label>
             </div>
             <div className="flex items-center justify-center w-full">
-            <button 
-              type="submit" 
-              className={`primarybtn text-white ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-              disabled={loading}
-            >
-              {loading ? <span>Submitting</span> : 'Submit'}
-            </button>
+              <button 
+                type="submit" 
+                className={`primarybtn text-white ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={loading}
+              >
+                {loading ? <span>Submitting</span> : 'Submit'}
+              </button>
             </div>
             {error && <p className='text-red-500 mt-4'>{error}</p>}
             {success && <p className='text-green-500 mt-4'>{success}</p>}
@@ -277,7 +304,6 @@ const SubmitOpportunity = ({ onClose }) => {
           <Toaster />
         </div>
       </div>
-
     </>
   );
 };
