@@ -105,7 +105,7 @@ const NewOpportunity = () => {
                 </p>
               </div>
               <div className="w-full">
-                <p className="bt2">{opportunity.description.slice(0, 40) + "..."}</p>
+                <div className="bt2">{opportunity.description.slice(0, 40) + "..."}</div>
               </div>
               <div className="flex-shrink-0 w-full py-4">
                 <Link
@@ -156,7 +156,7 @@ const NewOpportunity = () => {
 
               {/* Description */}
               <div className="flex-1">
-                <p className="">{opportunity.description.slice(0, 30)}...</p>
+                <div className="">{opportunity.description.slice(0, 30)}...</div>
               </div>
 
               {/* Apply Button */}

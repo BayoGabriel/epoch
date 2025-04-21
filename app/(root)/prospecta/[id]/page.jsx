@@ -206,7 +206,7 @@ const OpportunityDetails = ({ params }) => {
             {/* Add description and other details */}
             <div className="mt-8">
               <h4 className="h4 mb-2">Description</h4>
-              <p className="text-gray-700">{opportunity.description}</p>
+              <div className="text-gray-700">{opportunity.description}</div>
             </div>
 
             <div className="mt-4">

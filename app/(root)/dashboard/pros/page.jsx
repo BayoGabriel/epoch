@@ -95,7 +95,7 @@ const NewOpportunity = () => {
           opportunities.map((opportunity) => (
             <div key={opportunity._id} className="">
               <h3 className="text-xl font-bold">{opportunity.title}</h3>
-              <p className="mt-2">{opportunity.description}</p>
+              <div className="mt-2">{opportunity.description}</div>
               <p className="mt-2 font-semibold">Type: {opportunity.type}</p>
               <p className="mt-2 font-semibold">
                 Institution: {opportunity.institution}

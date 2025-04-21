@@ -269,7 +269,7 @@ const Hero = () => {
                   </p>
                 </div>
                 <div className="flex-1">
-                  <p className="">{opportunity.description.slice(0, 100)}</p>
+                  <div className="">{opportunity.description.slice(0, 100)}</div>
                 </div>
                 <div className="flex-shrink-0 py-4">
                   <Link
