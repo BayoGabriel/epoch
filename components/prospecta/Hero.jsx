@@ -269,7 +269,10 @@ const Hero = () => {
                   </p>
                 </div>
                 <div className="flex-1">
-                  <div className="">{opportunity.description.slice(0, 100)}</div>
+                  <div
+                    className="text-gray-700"
+                    dangerouslySetInnerHTML={{ __html: opportunity.description.slice(0, 100) }}
+                  />
                 </div>
                 <div className="flex-shrink-0 py-4">
                   <Link
@@ -309,7 +312,10 @@ const Hero = () => {
                 </p>
               </div>
               <div className="w-full">
-                <p className="bt2">{opportunity.description.slice(0, 100)}</p>
+                <div
+                className="text-gray-700"
+                dangerouslySetInnerHTML={{ __html: opportunity.description.slice(0, 100) }}
+              />
               </div>
               <div className="flex-shrink-0 w-full py-4">
                 <Link

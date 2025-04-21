@@ -105,7 +105,10 @@ const NewOpportunity = () => {
                 </p>
               </div>
               <div className="w-full">
-                <div className="bt2">{opportunity.description.slice(0, 40) + "..."}</div>
+                <div
+                    className="text-gray-700 bt2"
+                    dangerouslySetInnerHTML={{ __html: opportunity.description.slice(0, 40) + "..." }}
+                  />
               </div>
               <div className="flex-shrink-0 w-full py-4">
                 <Link
@@ -156,7 +159,10 @@ const NewOpportunity = () => {
 
               {/* Description */}
               <div className="flex-1">
-                <div className="">{opportunity.description.slice(0, 30)}...</div>
+                <div
+                    className="text-gray-700"
+                    dangerouslySetInnerHTML={{ __html: opportunity.description.slice(0, 30) }}
+                  />
               </div>
 
               {/* Apply Button */}
