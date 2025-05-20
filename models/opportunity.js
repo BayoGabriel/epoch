@@ -1,4 +1,4 @@
-// models/opportunity.js
+
 import mongoose from 'mongoose';
 
 const OpportunitySchema = new mongoose.Schema({

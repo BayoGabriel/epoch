@@ -1,5 +1,4 @@
 /* eslint-disable react/no-unescaped-entities */
-// app/(root)/ambassadors/page.jsx
 "use client"
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image'

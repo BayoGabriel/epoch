@@ -1,4 +1,4 @@
-//app/(root)/newsletter/page.jsx
+
 "use client"
 
 import { useState } from "react"
