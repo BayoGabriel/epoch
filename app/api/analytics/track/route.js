@@ -1,32 +1,44 @@
-import { NextResponse } from 'next/server';
-import connectMongo from '@/utils/mongodb';
-import Analytics from '@/models/analytics';
+import { NextResponse } from "next/server"
+import Analytics from "@/models/analytics"
+import Opportunity from "@/models/opportunity"
+import dbConnect from "@/utils/mongodb"
 
 export async function POST(request) {
   try {
-    const data = await request.json();
-    await connectMongo();
+    // Connect to database
+    await dbConnect()
 
-    const analytics = new Analytics({
-      userId: data.userId,
-      sessionId: data.sessionId,
-      url: data.path,
-      ip: data.ip,
-      event: data.type,
-      target: data.target,
-      metadata: {
-        opportunityId: data.opportunityId,
-        interactionType: data.interactionType,
-        sessionDuration: data.sessionDuration,
-        previousPage: data.previousPage,
-      },
-      timestamp: data.timestamp || new Date(),
-    });
+    // Get the analytics data from the request body
+    const analyticsData = await request.json()
 
-    await analytics.save();
-    return NextResponse.json({ success: true });
+    // Add IP address from request headers
+    const forwardedFor = request.headers.get("x-forwarded-for")
+    analyticsData.ip = forwardedFor ? forwardedFor.split(",")[0] : "unknown"
+
+    // If this is an opportunity view, increment the view count in the Opportunity model
+    if (analyticsData.event === "opportunity_view" && analyticsData.metadata && analyticsData.metadata.opportunityId) {
+      try {
+        await Opportunity.findByIdAndUpdate(analyticsData.metadata.opportunityId, { $inc: { views: 1 } })
+      } catch (err) {
+        console.error("Error updating opportunity view count:", err)
+      }
+    }
+
+    // If this is an opportunity apply, increment the applications count in the Opportunity model
+    if (analyticsData.event === "opportunity_apply" && analyticsData.metadata && analyticsData.metadata.opportunityId) {
+      try {
+        await Opportunity.findByIdAndUpdate(analyticsData.metadata.opportunityId, { $inc: { applications: 1 } })
+      } catch (err) {
+        console.error("Error updating opportunity applications count:", err)
+      }
+    }
+
+    // Insert the analytics data into the database
+    await Analytics.create(analyticsData)
+
+    return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Analytics tracking error:', error);
-    return NextResponse.json({ error: 'Failed to track analytics' }, { status: 500 });
+    console.error("Error tracking analytics:", error)
+    return NextResponse.json({ error: "Failed to track analytics data" }, { status: 500 })
   }
 }

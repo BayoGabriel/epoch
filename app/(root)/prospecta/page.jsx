@@ -1,3 +1,4 @@
+// app/(root)/prospecta/page.jsx
 import DeadlineTracker from '@/components/prospecta/DeadlineTracker'
 import Hero from '@/components/prospecta/Hero'
 import SubmitOpportunity from '@/components/prospecta/Submit'

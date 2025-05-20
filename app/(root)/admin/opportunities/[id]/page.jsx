@@ -1,3 +1,4 @@
+// app/(root)/admin/opportunities/[id]/page.jsx
 'use client';
 
 import { useState, useEffect } from 'react';

@@ -1,3 +1,4 @@
+// components/prospecta/Hero.jsx
 "use client";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";

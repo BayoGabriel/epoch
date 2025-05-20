@@ -1,3 +1,4 @@
+// app/(root)/blog/page.jsx
 'use client';
 
 import { useState, useEffect } from 'react';

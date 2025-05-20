@@ -1,3 +1,4 @@
+// models/UserOpportunityInteraction.js
 import mongoose from 'mongoose';
 
 const UserOpportunityInteractionSchema = new mongoose.Schema({

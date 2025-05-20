@@ -1,3 +1,4 @@
+// app/(root)/prospecta/[id]/page.jsx
 "use client"
 import { useSession } from "next-auth/react"
 import Image from "next/image"
