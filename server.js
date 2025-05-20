@@ -5,7 +5,7 @@ const next = require('next');
 const { initCronJobs } = require('./utils/cronScheduler');
 
 const dev = process.env.NODE_ENV !== 'production';
-const hostname = 'localhost';
+const hostname = 'epoch';
 const port = process.env.PORT || 3000;
 
 // Set the base URL for the cron job
