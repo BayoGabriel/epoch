@@ -101,6 +101,9 @@ const WhatsNew = () => {
                 <Link href='' className='mt-auto'><button className='prbtn rounded-[8px] border px-[15px] py-[6px]'>Listen Now</button></Link>
             </div>
           </div> */}
+          <div className="overflow-hidden">
+          <iframe src="https://open.spotify.com/embed/episode/1qrIRNeiBijp2drjVCt7dR?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+          </div>
           <div className='overflow-hidden'>
           <iframe className='w-full' src="https://open.spotify.com/embed/episode/68OBY2Z47yWfyT6IZDtebl?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
           </div>
@@ -109,9 +112,6 @@ const WhatsNew = () => {
           </div>
           <div className="overflow-hidden">
           <iframe className='w-full' src="https://open.spotify.com/embed/episode/3NKyhhXhrTaShDBLztfWXC?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-          </div>
-          <div className="overflow-hidden">
-          <iframe className='w-full' src="https://open.spotify.com/embed/episode/50eyyFmmgUIQZVGkgXHMj6?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
           </div>
         </div>
       </div>
