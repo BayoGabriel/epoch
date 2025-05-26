@@ -45,62 +45,7 @@ const WhatsNew = () => {
             <MdNavigateNext className='mt-[3px]' />
           </Link>
         </div>
-
-        {/* <div className="w-full mt-[32px]">
-          {error ? (
-            <p className="text-red-500">{error}</p>
-          ) : (
-            <ul className='w-full grid grid-cols-4 max-lg:grid-cols-2 gap-4'>
-              {episodes.map((episode, index) => (
-                <li key={index} className="text-white bg-gray-800 p-4 rounded-md">
-                  {episode.enclosure?.url && (
-                    <Image src={episode.image || episode.enclosure.url} alt={episode.title} className="w-full rounded-md mb-2" />
-                  )}
-                  <h3 className="text-lg font-bold mb-2">{episode.title}</h3>
-                  {episode.enclosure?.url && (
-                    <a href={episode.enclosure.url} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">
-                      Listen Now
-                    </a>
-                  )}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div> */}
         <div className="w-full mt-[32px] grid grid-cols-4 gap-2 max-lg:grid-cols-1">
-          {/* <div className="bg-[#403D39CC] text-white flex flex-col gap-[22px] pb-10 rounded-[8px]">
-            <Image src={one} alt='1' className='w-full'/>
-            <div className="flex flex-col gap-[22px] px-5 flex-grow">
-                <h4 className="h4 text-white">The Strength of Self-Discovery</h4>
-                <p className="b1">A journey of self-discovery; balancing academics with passion projects.</p>
-                
-                <Link href='' className='mt-auto'><button className='prbtn rounded-[8px] border px-[15px] py-[6px]'>Listen Now</button></Link>
-            </div>
-          </div>
-          <div className="bg-[#403D39CC] text-white flex flex-col gap-[22px] pb-10 rounded-[8px]">
-            <Image src={two} alt='1' className='w-full'/>
-            <div className="flex flex-col gap-[22px] px-5 flex-grow">
-                <h4 className="h4 text-white">The Power of Intentionality</h4>
-                <p className="b1">Oluchukwu's story took a different dimension.</p>
-                <Link href='' className='mt-auto'><button className='prbtn rounded-[8px] border px-[15px] py-[6px]'>Listen Now</button></Link>
-            </div>
-          </div>
-          <div className="bg-[#403D39CC] text-white flex flex-col gap-[22px] pb-10 rounded-[8px]">
-            <Image src={three} alt='1' className='w-full'/>
-            <div className="flex flex-col gap-[22px] px-5 flex-grow">
-                <h4 className="h4 text-white">The Audacity of Ambition</h4>
-                <p className="b1">You want to listen to this! This episode re-affirms the achievable.</p>
-                <Link href='' className='mt-auto'><button className='prbtn rounded-[8px] border px-[15px] py-[6px]'>Listen Now</button></Link>
-            </div>
-          </div>
-          <div className="bg-[#403D39CC] text-white flex flex-col gap-[22px] pb-10 rounded-[8px]">
-            <Image src={four} alt='1' className='w-full'/>
-            <div className="flex flex-col gap-[22px] px-5 flex-grow">
-                <h4 className="h4 text-white">Defying the Degree</h4>
-                <p className="b1">This took a different turn with the story of an individual who decided to drop out of school.</p>
-                <Link href='' className='mt-auto'><button className='prbtn rounded-[8px] border px-[15px] py-[6px]'>Listen Now</button></Link>
-            </div>
-          </div> */}
           <div className="overflow-hidden">
           <iframe src="https://open.spotify.com/embed/episode/1qrIRNeiBijp2drjVCt7dR?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
           </div>

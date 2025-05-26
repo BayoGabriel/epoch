@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from '@/context/AuthProvider';
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next"
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -18,6 +19,8 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <body className={inter.className}>
+      <Analytics/>
+      <SpeedInsights/>
         <AuthProvider>
           {children}
           <Toaster 
