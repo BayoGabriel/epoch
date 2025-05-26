@@ -3,7 +3,7 @@ import "./globals.css";
 import Head from 'next/head';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from '@/context/AuthProvider';
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {

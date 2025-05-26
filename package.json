@@ -12,6 +12,7 @@
     "@react-email/components": "^0.0.19",
     "@react-email/html": "0.0.8",
     "@react-email/render": "^1.0.5",
+    "@vercel/speed-insights": "^1.2.0",
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.4.9",
