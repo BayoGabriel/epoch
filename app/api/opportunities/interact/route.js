@@ -1,3 +1,4 @@
+// api/opportunities/interact
 import connectMongo from '@/utils/mongodb';
 import UserOpportunityInteraction from '@/models/UserOpportunityInteraction';
 

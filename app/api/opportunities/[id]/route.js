@@ -1,3 +1,4 @@
+// api/opportunities/[id]
 import { NextResponse } from 'next/server';
 import connectMongo from '@/utils/mongodb';
 import Opportunity from '@/models/opportunity';
