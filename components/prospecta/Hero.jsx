@@ -195,7 +195,7 @@ const Hero = () => {
             <div className="lg:hidden">
                 <div className="w-full flex justify-center gap-[12px] items-center">
                     <select value={selectedCompany}
-                    onChange={(e) => setSelectedCompany(e.target.value)} className="border focus:outline-none text-[10px] border-[#DCDEE1] p-2 text-[#403D39CC]">
+                    onChange={(e) => setSelectedCompany(e.target.value)} className="border max-w-[200px] focus:outline-none text-[10px] border-[#DCDEE1] p-2 text-[#403D39CC]">
                     <option value="">Company Name</option>
                       {companies.map((company) => (
                         <option key={company} value={company}>

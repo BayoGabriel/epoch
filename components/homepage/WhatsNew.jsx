@@ -47,16 +47,16 @@ const WhatsNew = () => {
         </div>
         <div className="w-full mt-[32px] grid grid-cols-4 gap-2 max-lg:grid-cols-1">
           <div className="overflow-hidden">
+          <iframe src="https://open.spotify.com/embed/episode/0zXDBrcrHQnrgbRE9v51dl?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+          </div>
+          <div className="overflow-hidden">
+          <iframe src="https://open.spotify.com/embed/episode/4HGq8yIcFcGUno3eWwAJv0?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+          </div>
+          <div className="overflow-hidden">
           <iframe src="https://open.spotify.com/embed/episode/1qrIRNeiBijp2drjVCt7dR?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
           </div>
           <div className='overflow-hidden'>
           <iframe className='w-full' src="https://open.spotify.com/embed/episode/68OBY2Z47yWfyT6IZDtebl?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-          </div>
-          <div className="overflow-hidden">
-          <iframe className='w-full' src="https://open.spotify.com/embed/episode/6ldlvtp5RUGLdHqnPepSym?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-          </div>
-          <div className="overflow-hidden">
-          <iframe className='w-full' src="https://open.spotify.com/embed/episode/3NKyhhXhrTaShDBLztfWXC?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
           </div>
         </div>
       </div>
