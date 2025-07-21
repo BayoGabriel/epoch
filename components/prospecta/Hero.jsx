@@ -1,5 +1,7 @@
 // components/prospecta/Hero.jsx
+
 "use client";
+export const dynamic = 'force-dynamic';
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import Image from "next/image";
