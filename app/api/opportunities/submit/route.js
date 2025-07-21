@@ -3,6 +3,7 @@ import connectMongo from '@/utils/mongodb';
 import Opportunity from '@/models/opportunity';
 import User from '@/models/User';
 import cloudinary from '@/utils/cloudinary';
+import { generateUniqueSlug } from '@/utils/slug';
 
 export async function POST(req) {
   await connectMongo();
@@ -25,6 +26,9 @@ export async function POST(req) {
       imageUrl = result.secure_url;
     }
 
+    // Generate unique slug for the opportunity
+    const slug = await generateUniqueSlug(title || '');
+
     const opportunity = new Opportunity({
       institution: institutionName || '',
       title: title || '',
@@ -34,8 +38,9 @@ export async function POST(req) {
       createdBy: createdBy || null,
       type: type || 'internship',
       description: description || '',
-      status: user.role === 'admin' ? 'approved' : 'pending', 
+      status: user.role === 'admin' ? 'approved' : 'pending',
       imageUrl,
+      slug,
     });
 
     await opportunity.save();

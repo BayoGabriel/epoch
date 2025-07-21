@@ -148,7 +148,7 @@ export default function BlogPostContent({ weekId }) {
                         </div>
                         <div className="mt-4">
                           <Link
-                            href={`/prospecta/${opp._id}`}
+                            href={`/prospecta/${opp.slug}`}
                             className="text-primary hover:text-primary/80 bt2"
                           >
                             View Details →

@@ -23,7 +23,8 @@ export async function GET(request) {
     }
 
     const opportunities = await Opportunity.find(baseQuery)
-      .sort({ dateCreated: -1 });
+      .sort({ dateCreated: -1 })
+      .select('title description type institution position status applicationDeadline applyLink imageUrl dateCreated slug');
 
     return new NextResponse(
       JSON.stringify(opportunities),

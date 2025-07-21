@@ -9,15 +9,20 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 export async function GET(req, { params }) {
   try {
     await connectMongo();
-    const opportunity = await Opportunity.findById(params.id);
-    
+    let opportunity;
+    // Check if param is a valid ObjectId (24 hex chars)
+    const isObjectId = /^[a-fA-F0-9]{24}$/.test(params.id);
+    if (isObjectId) {
+      opportunity = await Opportunity.findById(params.id);
+    } else {
+      opportunity = await Opportunity.findOne({ slug: params.id });
+    }
     if (!opportunity) {
       return new NextResponse(
         JSON.stringify({ message: 'Opportunity not found' }),
         { status: 404 }
       );
     }
-
     return new NextResponse(
       JSON.stringify(opportunity),
       { status: 200 }

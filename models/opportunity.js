@@ -2,24 +2,25 @@
 import mongoose from 'mongoose';
 
 const OpportunitySchema = new mongoose.Schema({
-  title: { type: String,  },
-  description: { type: String,  },
-  type: { type: String, enum: ['internship', 'scholarship', 'job', 'volunteer', 'ambassadorship', 'training'],  },
-  institution: { type: String,  },
-  position: { type: String,  },
+  title: { type: String, required: true },
+  slug: { type: String, required: true, unique: true, index: true }, // URL-safe slug
+  description: { type: String },
+  type: { type: String, enum: ['internship', 'scholarship', 'job', 'volunteer', 'ambassadorship', 'training'] },
+  institution: { type: String },
+  position: { type: String },
   dateCreated: { type: Date, default: Date.now },
-  applicationDeadline: { type: Date,  },
-  imageUrl: { 
+  applicationDeadline: { type: Date },
+  imageUrl: {
     type: String,
     default: 'https://res.cloudinary.com/dq1uyidfy/image/upload/v1736844758/opp_yby0nw.svg'
   },
-  applyLink: { type: String,  },
-  status: { 
-    type: String, 
-    enum: ['pending', 'approved', 'rejected', 'archived', 'expired'], 
-    default: 'pending' 
+  applyLink: { type: String },
+  status: {
+    type: String,
+    enum: ['pending', 'approved', 'rejected', 'archived', 'expired'],
+    default: 'pending'
   },
-  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User',  },
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 });
 
 // Add a method to check if an opportunity should be archived
