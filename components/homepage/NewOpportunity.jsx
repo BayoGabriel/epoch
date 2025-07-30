@@ -112,7 +112,7 @@ const NewOpportunity = () => {
               </div>
               <div className="flex-shrink-0 w-full py-4">
                 <Link
-                  href={`/prospecta/${opportunity._id}`}
+                  href={`/prospecta/${opportunity.slug}`}
                   rel="noopener noreferrer"
                   className="border border-[#DCDEE1] rounded-[8px] px-[15px] py-[6px] oppbtn text-[14px] font-[400]"
                 >

@@ -1,12 +1,18 @@
 import Hero from '@/components/dashboard/Hero'
+import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard'
+import { useSession } from 'next-auth/react'
 import React from 'react'
 
-const page = () => {
+const Page = () => {
+  const { data: session } = useSession();
+  const isAdmin = session?.user?.role === 'admin';
+
   return (
     <div>
-      <Hero/>
+      {isAdmin && <AnalyticsDashboard />}
+      <Hero />
     </div>
   )
 }
 
-export default page
+export default Page

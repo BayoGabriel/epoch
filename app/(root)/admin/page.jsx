@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { format } from 'date-fns';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import opp from '@/public/opp.svg';
-import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard';
+// import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard';
 import LoadingSpinner from '@/components/shared/LoadingSpinner';
 
 export default function AdminDashboard() {
@@ -169,7 +169,8 @@ export default function AdminDashboard() {
         </div>
 
         {activeTab === 'analytics' ? (
-          <AnalyticsDashboard />
+          // <AnalyticsDashboard />
+          <div>Analytics</div>
         ) : (
           <>
             {/* Filters */}

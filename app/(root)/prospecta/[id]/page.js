@@ -208,7 +208,7 @@ const OpportunityDetails = ({ params }) => {
             <div className="mt-8">
               <h4 className="h4 mb-2">Description</h4>
               <div
-                className="text-gray-700"
+                className="prose prose-lg text-gray-700"
                 dangerouslySetInnerHTML={{ __html: opportunity.description }}
               />
             </div>

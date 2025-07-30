@@ -313,7 +313,7 @@ const DeadlineTracker = () => {
                             : `${daysUntilDeadline} days left`}
                         </div>
                         <Link 
-                          href={`/prospecta/${opportunity._id}`}
+                          href={`/prospecta/${opportunity.slug}`}
                           className="text-primary hover:text-primary bt2 transition-colors duration-200"
                         >
                           View Opportunity

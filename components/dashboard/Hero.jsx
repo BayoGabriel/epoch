@@ -121,7 +121,7 @@ const Hero = () => {
             )}
             <div className="flex justify-end mt-2">
               <Link
-                href={`/prospecta/${opportunity._id}`}
+                href={`/prospecta/${opportunity.slug}`}
                 className="text-primary hover:text-primary/80 transition-colors duration-200"
               >
                 View Details

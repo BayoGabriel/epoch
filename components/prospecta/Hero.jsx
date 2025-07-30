@@ -129,7 +129,7 @@ const Hero = () => {
             <div className="w-full flex items-center justify-evenly max-lg:hidden">
               <div className="relative w-fit">
                 <select
-                  className="appearance-none border noselect rounded-[8px] focus:outline-none border-[#DCDEE1] pl-6 pr-12 py-3 bt2 text-[#403D39CC]"
+                  className="appearance-none max-w-[200px] border noselect rounded-[8px] focus:outline-none border-[#DCDEE1] pl-6 pr-12 py-3 bt2 text-[#403D39CC]"
                   value={selectedCompany}
                   onChange={(e) => setSelectedCompany(e.target.value)}
                 >
@@ -279,7 +279,7 @@ const Hero = () => {
                 </div>
                 <div className="flex-shrink-0 py-4">
                   <Link
-                    href={`/prospecta/${opportunity._id}`}
+                    href={`/prospecta/${opportunity.slug}`}
                     rel="noopener noreferrer"
                     className="border border-[#DCDEE1] rounded-[8px] px-[15px] py-[6px] oppbtn text-[14px] font-[400]"
                   >
@@ -322,7 +322,7 @@ const Hero = () => {
               </div>
               <div className="flex-shrink-0 w-full py-4">
                 <Link
-                  href={`/prospecta/${opportunity._id}`}
+                  href={`/prospecta/${opportunity.slug}`}
                   rel="noopener noreferrer"
                   className="border border-[#DCDEE1] rounded-[8px] px-[15px] py-[6px] oppbtn text-[14px] font-[400]"
                 >
