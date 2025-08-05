@@ -11,13 +11,11 @@ export async function POST(req) {
   const { institutionName, title, link, deadline, position, createdBy, description, type, image } = await req.json();
 
   try {
-    // Fetch user to check role
     const user = await User.findById(createdBy);
     if (!user) {
       return new Response(JSON.stringify({ message: 'User not found' }), { status: 404 });
     }
 
-    // Upload image to Cloudinary if provided
     let imageUrl = 'https://res.cloudinary.com/dq1uyidfy/image/upload/v1736844758/opp_yby0nw.svg';
     if (image) {
       const result = await cloudinary.uploader.upload(image, {
@@ -26,7 +24,6 @@ export async function POST(req) {
       imageUrl = result.secure_url;
     }
 
-    // Generate unique slug for the opportunity
     const slug = await generateUniqueSlug(title || '');
 
     const opportunity = new Opportunity({
