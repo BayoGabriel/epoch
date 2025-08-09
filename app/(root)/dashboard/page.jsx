@@ -1,3 +1,5 @@
+//app/(root)/dashboard/page.js
+"use client"
 import Hero from '@/components/dashboard/Hero'
 import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard'
 import { useSession } from 'next-auth/react'
